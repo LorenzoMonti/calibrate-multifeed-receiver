@@ -13,5 +13,5 @@ if __name__ == '__main__':
     trace = instr.get_trace(1) # Get trace
     
     Utils.plot_lineplot(trace)
-    Utils.save_data_as_csv(trace, "example")
+    Utils.save_data_as_csv(trace)
     

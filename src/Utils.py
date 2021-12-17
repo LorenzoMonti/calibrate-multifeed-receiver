@@ -2,7 +2,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
+import datetime
 
   
 def set_SPA_for_measure(ms2830a):
@@ -51,7 +51,7 @@ def plot_lineplot(trace):
         plt.show()
 
 
-def save_data_as_csv(trace, filename):
+def save_data_as_csv(trace):
         dataset = pd.DataFrame(trace)
-        dataset.to_csv(filename + ".csv")
+        dataset.to_csv("../data/measure-" + str(datetime.datetime.now()) + ".csv")
 
