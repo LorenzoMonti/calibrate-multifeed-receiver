@@ -1,0 +1,9 @@
+pyvisa
+pyvisa-py
+pyserial
+pyusb
+gpib-ctypes
+tk
+numpy
+pandas
+seaborn
