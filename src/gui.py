@@ -6,12 +6,14 @@
 #    Dec 17, 2021 11:46:39 AM CET  platform: Linux
 
 import sys
+from tkinter import Radiobutton
 from typing import Text
+from matplotlib.pyplot import text
 
-from numpy.lib.function_base import insert
+from numpy.lib.function_base import insert, select
 import Anritsu_MS2830A as SPA
 import Utils
-
+from tabs import measure_tab, configuration_tab, connect_tab
 
 try:
     import Tkinter as tk
@@ -26,33 +28,32 @@ except ImportError:
     py3 = True
 import gui_support
 
-
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w, root
     root = tk.Tk()
-    top = Toplevel1 (root)
+    top = UserInterface (root)
     gui_support.init(root, top)
     root.mainloop()
 
 w = None
-def create_Toplevel1(rt, *args, **kwargs):
+def create_UserInterface(rt, *args, **kwargs):
     '''Starting point when module is imported by another module.
-       Correct form of call: 'create_Toplevel1(root, *args, **kwargs)' .'''
+       Correct form of call: 'create_UserInterface(root, *args, **kwargs)' .'''
     global w, w_win, root
     #rt = root
     root = rt
     w = tk.Toplevel(root)
-    top = Toplevel1(w)
+    top = UserInterface(w)
     gui_support.init(w, top, *args, **kwargs)
     return (w, top)
 
-def destroy_Toplevel1():
+def destroy_UserInterface():
     global w
     w.destroy()
     w = None
 
-class Toplevel1:
+class UserInterface:
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -81,247 +82,28 @@ class Toplevel1:
         #############################
         config_interface = Utils.read_config_file("../config/config_interface.json")
         config_file = Utils.read_config_file("../config/config_MS2830A.json")
-        instr = SPA.Anritsu_MS2830A("Anritsu_MS2830A", config_interface["remote_eth"])
         ##############################
 
         self.style.configure('TNotebook.Tab', background=_bgcolor)
         self.style.configure('TNotebook.Tab', foreground=_fgcolor)
         self.style.map('TNotebook.Tab', background=
             [('selected', _compcolor), ('active',_ana2color)])
+        
+        #############################
+        # NOTEBOOK CREATION
+        #############################
         self.TNotebook1 = ttk.Notebook(top)
         self.TNotebook1.place(relx=0.017, rely=0.014, relheight=0.969
                 , relwidth=0.953)
         self.TNotebook1.configure(takefocus="")
         self.TNotebook1_t1 = tk.Frame(self.TNotebook1)
-        self.TNotebook1.add(self.TNotebook1_t1, padding=3)
-        self.TNotebook1.tab(0, text="Configuration",compound="left",underline="-1",)
-        self.TNotebook1_t1.configure(cursor="fleur")
-        self.TNotebook1_t2 = tk.Frame(self.TNotebook1)
-        self.TNotebook1.add(self.TNotebook1_t2, padding=3)
-        self.TNotebook1.tab(1, text="First Measure",compound="left",underline="-1",)
-        self.TNotebook1_t3 = tk.Frame(self.TNotebook1)
-        self.TNotebook1.add(self.TNotebook1_t3, padding=3)
-        self.TNotebook1.tab(2, text="Second Measure",compound="left",underline="-1",)
-        self.TNotebook1_t4 = tk.Frame(self.TNotebook1)
-        self.TNotebook1.add(self.TNotebook1_t4, padding=3)
-        self.TNotebook1.tab(3, text="Third Measure",compound="left",underline="-1",)
-        self.TNotebook1_t5 = tk.Frame(self.TNotebook1)
-        self.TNotebook1.add(self.TNotebook1_t5, padding=3)
-        self.TNotebook1.tab(4, text="Fourth Measure",compound="left",underline="-1",)
-        self.TNotebook1_t6 = tk.Frame(self.TNotebook1)
-        self.TNotebook1.add(self.TNotebook1_t6, padding=3)
-        self.TNotebook1.tab(5, text="Fifth Measure",compound="left",underline="-1",)
-	
-        ##################################
-        # 	      TAB 1		 #
-        ##################################
-        x_label = 0.035
-        h_label = 15
-        w_label = 160
-
-        x_text = 0.323
-        h_text = 0.029
-        w_text = 0.291
-
-        y_button = 0.739
-        h_button = 40
-        w_button = 150
-
-        # label
-        self.Label1 = tk.Label(self.TNotebook1_t1)
-        self.Label1.place(relx=x_label, rely=0.042, height=h_label, width=w_label)
-        self.Label1.configure(text='''Start frequency''')
-
-        self.Label2 = tk.Label(self.TNotebook1_t1)
-        self.Label2.place(relx=x_label, rely=0.113, height=h_label, width=w_label)
-        self.Label2.configure(text='''Stop Frequency''')
-
-        self.Label3 = tk.Label(self.TNotebook1_t1)
-        self.Label3.place(relx=x_label, rely=0.184, height=h_label, width=w_label)
-        self.Label3.configure(text='''Center Frequency''')
-
-        self.Label4 = tk.Label(self.TNotebook1_t1)
-        self.Label4.place(relx=x_label, rely=0.255, height=h_label, width=w_label)
-        self.Label4.configure(text='''Sweep Trace Points''')
-
-        self.Label5 = tk.Label(self.TNotebook1_t1)
-        self.Label5.place(relx=x_label, rely=0.326, height=h_label, width=w_label)
-        self.Label5.configure(text='''Resolution Bandwith''')
-
-        self.Label6 = tk.Label(self.TNotebook1_t1)
-        self.Label6.place(relx=x_label, rely=0.397, height=h_label, width=w_label)
-        self.Label6.configure(text='''Visual Bandwith''')
-
-        self.Label7 = tk.Label(self.TNotebook1_t1)
-        self.Label7.place(relx=x_label, rely=0.468, height=h_label, width=w_label)
-        self.Label7.configure(text='''Amplitude log scale''')
-
-        self.Label8 = tk.Label(self.TNotebook1_t1)
-        self.Label8.place(relx=x_label, rely=0.539, height=h_label, width=w_label)
-        self.Label8.configure(text='''Reference Level''')
-
-        self.Label9 = tk.Label(self.TNotebook1_t1)
-        self.Label9.place(relx=x_label, rely=0.61, height=h_label, width=w_label)
-        self.Label9.configure(text='''Zoom Spot Marker number''')
         
-        self.Label10 = tk.Label(self.TNotebook1_t1)
-        self.Label10.place(relx=x_label, rely=0.68, height=h_label, width=w_label)
-        self.Label10.configure(text='''Zoom Spot Marker type''')
-
-        # entry
-        self.Entry1 = tk.Entry(self.TNotebook1_t1)
-        self.Entry1.place(relx=x_text, rely=0.042, relheight=h_text, relwidth=w_text)
-        self.Entry1.configure(background="white")
-        self.Entry1.configure(font="TkTextFont")
-        self.Entry1.configure(selectbackground="blue")
-        self.Entry1.configure(selectforeground="white")
-        self.Entry1.insert(0, config_file["start_freq"])
-
-        self.Entry2 = tk.Entry(self.TNotebook1_t1)
-        self.Entry2.place(relx=x_text, rely=0.113, relheight=h_text, relwidth=w_text)
-        self.Entry2.configure(background="white")
-        self.Entry2.configure(cursor="fleur")
-        self.Entry2.configure(font="TkTextFont")
-        self.Entry2.configure(selectbackground="blue")
-        self.Entry2.configure(selectforeground="white")
-        self.Entry2.insert(0, config_file["stop_freq"])
-
-        self.Entry3 = tk.Entry(self.TNotebook1_t1)
-        self.Entry3.place(relx=x_text, rely=0.184, relheight=h_text, relwidth=w_text)
-        self.Entry3.configure(background="white")
-        self.Entry3.configure(cursor="fleur")
-        self.Entry3.configure(font="TkTextFont")
-        self.Entry3.configure(selectbackground="blue")
-        self.Entry3.configure(selectforeground="white")
-        self.Entry3.insert(0, config_file["center_freq"])
-
-
-        self.Entry4 = tk.Entry(self.TNotebook1_t1)
-        self.Entry4.place(relx=x_text, rely=0.255, relheight=h_text, relwidth=w_text)
-        self.Entry4.configure(background="white")
-        self.Entry4.configure(font="TkTextFont")
-        self.Entry4.configure(selectbackground="blue")
-        self.Entry4.configure(selectforeground="white")
-        self.Entry4.insert(0, config_file["sweep_trace_points"])
-
-
-        self.Entry5 = tk.Entry(self.TNotebook1_t1)
-        self.Entry5.place(relx=x_text, rely=0.326, relheight=h_text, relwidth=w_text)
-        self.Entry5.configure(background="white")
-        self.Entry5.configure(font="TkTextFont")
-        self.Entry5.configure(selectbackground="blue")
-        self.Entry5.configure(selectforeground="white")
-        self.Entry5.insert(0, config_file["resolution_bandwith"])
-
-        self.Entry6 = tk.Entry(self.TNotebook1_t1)
-        self.Entry6.place(relx=x_text, rely=0.397, relheight=h_text, relwidth=w_text)
-        self.Entry6.configure(background="white")
-        self.Entry6.configure(font="TkTextFont")
-        self.Entry6.configure(selectbackground="blue")
-        self.Entry6.configure(selectforeground="white")
-        self.Entry6.insert(0, config_file["visual_bandwith"])
-
-        self.Entry7 = tk.Entry(self.TNotebook1_t1)
-        self.Entry7.place(relx=x_text, rely=0.468, relheight=h_text, relwidth=w_text)
-        self.Entry7.configure(background="white")
-        self.Entry7.configure(cursor="fleur")
-        self.Entry7.configure(font="TkTextFont")
-        self.Entry7.configure(selectbackground="blue")
-        self.Entry7.configure(selectforeground="white")
-        self.Entry7.insert(0, config_file["amplitude_log_scale"])
-
-        self.Entry8 = tk.Entry(self.TNotebook1_t1)
-        self.Entry8.place(relx=x_text, rely=0.539, relheight=h_text, relwidth=w_text)
-        self.Entry8.configure(background="white")
-        self.Entry8.configure(cursor="fleur")
-        self.Entry8.configure(font="TkTextFont")
-        self.Entry8.configure(selectbackground="blue")
-        self.Entry8.configure(selectforeground="white")
-        self.Entry8.insert(0, config_file["reference_level"])
-
-        self.Entry9 = tk.Entry(self.TNotebook1_t1)
-        self.Entry9.place(relx=x_text, rely=0.61, relheight=h_text, relwidth=w_text)
-        self.Entry9.configure(background="white")
-        self.Entry9.configure(cursor="fleur")
-        self.Entry9.configure(font="TkTextFont")
-        self.Entry9.configure(selectbackground="blue")
-        self.Entry9.configure(selectforeground="white")
-        self.Entry9.insert(0, config_file["zoom_spot_marker"][0])
-
-        self.Entry10 = tk.Entry(self.TNotebook1_t1)
-        self.Entry10.place(relx=x_text, rely=0.68, relheight=h_text, relwidth=w_text)
-        self.Entry10.configure(background="white")
-        self.Entry10.configure(cursor="fleur")
-        self.Entry10.configure(font="TkTextFont")
-        self.Entry10.configure(selectbackground="blue")
-        self.Entry10.configure(selectforeground="white")
-        self.Entry10.insert(0, config_file["zoom_spot_marker"][1])
-
-        # text for log output
-        self.Entry11 = tk.Entry(self.TNotebook1_t1)
-        self.Entry11.place(relx=0.035, rely=0.818, relheight=0.154, relwidth=0.94)
-        self.Entry11.configure(background="white")
-        self.Entry11.configure(font="TkTextFont")
-        self.Entry11.configure(selectbackground="blue")
-        self.Entry11.configure(selectforeground="grey")
-        self.Entry11.configure(state="disabled")
-
-        #button
-        def write_conf():
-            config_file = {
-                "start_freq": int(self.Entry1.get()),
-                "stop_freq": int(self.Entry2.get()),
-                "center_freq": int(self.Entry3.get()),
-                "sweep_trace_points": int(self.Entry4.get()),
-                "resolution_bandwith": int(self.Entry5.get()),
-                "visual_bandwith": int(self.Entry6.get()),
-                "amplitude_log_scale": int(self.Entry7.get()),
-                "reference_level": int(self.Entry8.get()),
-                "zoom_spot_marker": [self.Entry9.get(), self.Entry10.get()]
-            }
-            try:
-                Utils.write_config_file("../config/config_MS2830A.json", config_file)
-                print("Scrittura del file di configurazione eseguita con successo")
-            except:
-                print("La scrittura su file non è andata a buon fine")
-            
-
-
-        self.Button1 = tk.Button(self.TNotebook1_t1)
-        self.Button1.place(relx=0.035, rely=y_button, height=h_button, width=w_button)
-        self.Button1.configure(borderwidth="2")
-        self.Button1.configure(command=write_conf)
-        self.Button1.configure(text='''Write configuration''')
-
-        def set_conf():
-            Utils.set_SPA_for_measure(instr, config_file)
-
-        self.Button2 = tk.Button(self.TNotebook1_t1)
-        self.Button2.place(relx=0.350, rely=y_button, height=h_button, width=w_button)
-        self.Button2.configure(command=set_conf)
-        self.Button2.configure(borderwidth="2")
-        self.Button2.configure(text='''Set configuration''')
-
-        self.Button3 = tk.Button(self.TNotebook1_t1)
-        self.Button3.place(relx=0.665, rely=y_button, height=h_button, width=w_button)
-        self.Button3.configure(borderwidth="2")
-        self.Button3.configure(text='''Next tab''')
-
-
-        ##################################
-        # 	      TAB 2		 #
-        ##################################
-	
-        self.Message1 = tk.Message(self.TNotebook1_t2)
-        self.Message1.place(relx=0.351, rely=0.13, relheight=0.154, relwidth=0.3)
-
-        self.Message1.configure(text='''Message''')
-        self.Message1.configure(width=171)
-
-    @staticmethod
-    def popup1(event, *args, **kwargs):
-        Popupmenu1 = tk.Menu(root, tearoff=0)
-        Popupmenu1.post(event.x_root, event.y_root)
+        #############################
+        # TABS CREATION
+        #############################
+        connect_tab.connect(self, self.TNotebook1, config_interface, config_file)
+        configuration_tab.configuration(self, self.TNotebook1, config_interface, config_file)
+        measure_tab.measure(self,self.TNotebook1)
 
 if __name__ == '__main__':
     vp_start_gui()

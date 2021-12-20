@@ -8,7 +8,7 @@
     "amplitude_log_scale": 1,
     "reference_level": -62,
     "zoom_spot_marker": [
-        "1",
+        1,
         "SPOT"
     ]
 }
