@@ -4,7 +4,7 @@
     "center_freq": 2000000000,
     "sweep_trace_points": 5001,
     "resolution_bandwith": 1000000,
-    "visual_bandwith": 100,
+    "video_bandwith": 100,
     "amplitude_log_scale": 1,
     "reference_level": -62,
     "zoom_spot_marker": [1, "SPOT"]

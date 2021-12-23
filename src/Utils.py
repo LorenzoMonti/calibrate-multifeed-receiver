@@ -5,7 +5,7 @@ import pandas as pd
 import datetime
 import json
   
-def set_SPA_for_measure(ms2830a, config_file):
+def set_SPA_for_measure(ms2830a, config_file, manual_command):
         """
         This method allows to set the Anritsu MS2830A for the measurements
         """    
@@ -16,7 +16,6 @@ def set_SPA_for_measure(ms2830a, config_file):
         # Frequency
         ms2830a.do_set_startfreq(config_file["start_freq"]) # 1Ghz
         ms2830a.do_set_stopfreq(config_file["stop_freq"])
-        ms2830a.do_set_centerfreq(config_file["center_freq"])
         print("Start Frequency: " + str(ms2830a.do_get_startfreq()))
         print("Stop Frequency: " + str(ms2830a.do_get_stopfreq()))
         print("Center Frequency: " + str(ms2830a.do_get_centerfreq()))
@@ -29,7 +28,7 @@ def set_SPA_for_measure(ms2830a, config_file):
         ms2830a.do_set_resolutionBW(config_file["resolution_bandwith"]) # 1Mhz
         print("Resolution Bandwith: " + str(ms2830a.do_get_resolutionBW()))
         ms2830a.do_set_videoBW(100)
-        print("Visual bandwith:" + str(ms2830a.do_get_videoBW))
+        print("Video bandwith:" + str(ms2830a.do_get_videoBW))
         
         # AMPLITUDE
         ms2830a.set_amplitude_scale(config_file["amplitude_log_scale"])
@@ -39,7 +38,10 @@ def set_SPA_for_measure(ms2830a, config_file):
 
         # MARKER
         ms2830a.set_zoom_spot_marker(config_file["zoom_spot_marker"][0], config_file["zoom_spot_marker"][1])
-
+        
+        # MANUAL COMMAND
+        if(len(manual_command) != 0):
+                ms2830a.write(manual_command)
 
 def plot_lineplot(trace):
         

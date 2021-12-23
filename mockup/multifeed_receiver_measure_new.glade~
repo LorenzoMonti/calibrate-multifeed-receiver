@@ -42,7 +42,7 @@
             <property name="height-request">150</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
-            <property name="text" translatable="yes">Interface chosen: GPIB</property>
+            <property name="text" translatable="yes">Interface chose: GPIB</property>
           </object>
           <packing>
             <property name="x">16</property>
@@ -78,7 +78,7 @@
           </object>
           <packing>
             <property name="x">250</property>
-            <property name="y">90</property>
+            <property name="y">50</property>
           </packing>
         </child>
         <child>
@@ -92,7 +92,7 @@
 Center Frequency: 2000000000.0
 Sweep Trace points: 5001
 Resolution Bandwith: 1000000.0
-Video bandwith:100 Amplitude log scale: 1
+Vdeo bandwith:100 Amplitude log scale: 1
 Reference level: -62.00
 </property>
             <property name="truncate-multiline">True</property>
@@ -200,37 +200,63 @@ Reference level: -62.00
             <property name="height-request">34</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
+            <property name="text" translatable="yes">2000000000</property>
+          </object>
+          <packing>
+            <property name="x">250</property>
+            <property name="y">146</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry">
+            <property name="width-request">168</property>
+            <property name="height-request">34</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
             <property name="text" translatable="yes">4000000000</property>
           </object>
           <packing>
-            <property name="x">249</property>
-            <property name="y">143</property>
+            <property name="x">250</property>
+            <property name="y">98</property>
           </packing>
         </child>
         <child>
           <object class="GtkAccelLabel">
-            <property name="width-request">104</property>
+            <property name="width-request">100</property>
             <property name="height-request">20</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Start frequency</property>
           </object>
           <packing>
-            <property name="x">107</property>
-            <property name="y">100</property>
+            <property name="x">101</property>
+            <property name="y">55</property>
           </packing>
         </child>
         <child>
           <object class="GtkAccelLabel">
-            <property name="width-request">102</property>
+            <property name="width-request">100</property>
             <property name="height-request">20</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Stop frequency</property>
           </object>
           <packing>
-            <property name="x">103</property>
-            <property name="y">150</property>
+            <property name="x">100</property>
+            <property name="y">103</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkAccelLabel">
+            <property name="width-request">100</property>
+            <property name="height-request">20</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Center frequency</property>
+          </object>
+          <packing>
+            <property name="x">100</property>
+            <property name="y">151</property>
           </packing>
         </child>
         <child>
@@ -365,31 +391,6 @@ Reference level: -62.00
           <packing>
             <property name="x">420</property>
             <property name="y">541</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry">
-            <property name="width-request">168</property>
-            <property name="height-request">34</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-          </object>
-          <packing>
-            <property name="x">250</property>
-            <property name="y">39</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkAccelLabel">
-            <property name="width-request">104</property>
-            <property name="height-request">20</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Manual command</property>
-          </object>
-          <packing>
-            <property name="x">111</property>
-            <property name="y">46</property>
           </packing>
         </child>
       </object>

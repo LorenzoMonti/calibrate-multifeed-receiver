@@ -367,31 +367,6 @@ Reference level: -62.00
             <property name="y">541</property>
           </packing>
         </child>
-        <child>
-          <object class="GtkEntry">
-            <property name="width-request">168</property>
-            <property name="height-request">34</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-          </object>
-          <packing>
-            <property name="x">250</property>
-            <property name="y">39</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkAccelLabel">
-            <property name="width-request">104</property>
-            <property name="height-request">20</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Manual command</property>
-          </object>
-          <packing>
-            <property name="x">111</property>
-            <property name="y">46</property>
-          </packing>
-        </child>
       </object>
       <packing>
         <property name="position">1</property>

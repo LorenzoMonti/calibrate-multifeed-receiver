@@ -40,7 +40,7 @@ print("Sweep Trace points: " + inst.query("SWE:POIN?"))
 inst.write("RB 1000000") #1MhZ
 print("Resolution Bandwith: " + inst.query("RB?"))
 inst.write("VB 100")
-print("Visual Bandwith: " + inst.query("VB?"))
+print("Video Bandwith: " + inst.query("VB?"))
 ######################################
 #           AMPLITUDE                #
 ######################################
