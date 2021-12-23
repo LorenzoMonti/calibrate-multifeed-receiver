@@ -32,7 +32,6 @@ def connect(self, TNotebook1, config_interface, config_file):
     
     self.TNotebook1.add(self.TNotebook1_t1, padding=3)
     self.TNotebook1.tab(0, text="Connection",compound="left",underline="-1",)
-    self.TNotebook1_t1.configure(cursor="arrow")
 
     # label
     self.Label0 = tk.Label(self.TNotebook1_t1)
@@ -41,9 +40,9 @@ def connect(self, TNotebook1, config_interface, config_file):
 
     options = [interface_key for interface_key, interface_value in config_interface.items()]
     self.selected_interface = tk.StringVar() # Dropmenu variable (store option choice)
-    self.selected_interface.set(options[0]) # first element is selected as default
+    self.selected_interface.set(options[0]) # first element (GPIB) is selected as default
 
-    # text for log output
+    # text for log output    
     self.EntryMenu = tk.Entry(self.TNotebook1_t1, textvariable= self.selected_interface)
     self.EntryMenu.place(relx=0.035, rely=0.818, relheight=0.154, relwidth=0.94)
     self.EntryMenu.configure(background='#d9d9d9')

@@ -1,3 +1,5 @@
+from logging import disable
+from tkinter import Tk
 import Anritsu_MS2830A as SPA
 import Utils
 
@@ -155,16 +157,14 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Entry10.configure(font="TkTextFont")
     self.Entry10.configure(selectbackground="blue")
     self.Entry10.configure(selectforeground="white")
-    self.Entry10.insert(0, "")
 
     # text for log output
-    self.Entry11 = tk.Entry(self.TNotebook1_t2)
-    self.Entry11.place(relx=0.035, rely=0.818, relheight=0.154, relwidth=0.94)
-    self.Entry11.configure(background="white")
-    self.Entry11.configure(font="TkTextFont")
-    self.Entry11.configure(selectbackground="blue")
-    self.Entry11.configure(selectforeground="grey")
-    self.Entry11.configure(state="disabled")
+    self.Text1 = tk.Text(self.TNotebook1_t2)
+    self.scroll = tk.Scrollbar(self.TNotebook1_t2)
+    self.Text1.configure(yscrollcommand=self.scroll.set)
+    self.Text1.place(relx=0.035, rely=0.818, relheight=0.154, relwidth=0.94)
+    self.Text1.configure(background='#d9d9d9')
+    self.Text1.configure(font="TkTextFont")
 
     # function for button "Write configuration"
     def write_conf():
@@ -180,11 +180,10 @@ def configuration(self, TNotebook1, config_interface, config_file):
         }
         try:
             Utils.write_config_file("../config/config_MS2830A.json", config_file)
-            print("Scrittura del file di configurazione eseguita con successo")
+            self.Text1.insert(tk.END, "Configuration file written successfully \n")
         except:
-            print("La scrittura su file non è andata a buon fine")
+            self.Text1.insert(tk.END, "Error writing configuration file \n")
         
-
     self.Button1 = tk.Button(self.TNotebook1_t2)
     self.Button1.place(relx=0.035, rely=y_button, height=h_button, width=w_button)
     self.Button1.configure(borderwidth="2")
@@ -194,7 +193,11 @@ def configuration(self, TNotebook1, config_interface, config_file):
     def set_conf():
         global instr
         instr = SPA.Anritsu_MS2830A("Anritsu_MS2830A",config_interface[self.selected_interface.get()])
-        Utils.set_SPA_for_measure(instr, config_file, self.Entry10.get())
+        log_list = Utils.set_SPA_for_measure(instr, config_file, self.Entry10.get())
+        self.Text1.insert(tk.END, "Configuration\n")
+        for l in log_list:
+            self.Text1.insert(tk.END, l + "\n")
+
 
     self.Button2 = tk.Button(self.TNotebook1_t2)
     self.Button2.place(relx=0.350, rely=y_button, height=h_button, width=w_button)
@@ -205,6 +208,8 @@ def configuration(self, TNotebook1, config_interface, config_file):
     def plot_data():
         trace = instr.get_trace(1) # Get trace
         Utils.plot_lineplot(trace)
+        self.Text1.insert(tk.END, "Data plotted\n")
+
 
     self.Button3 = tk.Button(self.TNotebook1_t2)
     self.Button3.place(relx=0.665, rely=y_button, height=h_button, width=w_button)
