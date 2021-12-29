@@ -435,8 +435,8 @@ Reference level: -62.00
             <property name="label" translatable="yes">Pc</property>
           </object>
           <packing>
-            <property name="x">31</property>
-            <property name="y">85</property>
+            <property name="x">230</property>
+            <property name="y">80</property>
           </packing>
         </child>
         <child>
@@ -447,7 +447,7 @@ Reference level: -62.00
             <property name="label" translatable="yes">Pc+m</property>
           </object>
           <packing>
-            <property name="x">31</property>
+            <property name="x">230</property>
             <property name="y">175</property>
           </packing>
         </child>
@@ -460,7 +460,7 @@ Reference level: -62.00
             <property name="label" translatable="yes">Ph</property>
           </object>
           <packing>
-            <property name="x">31</property>
+            <property name="x">230</property>
             <property name="y">265</property>
           </packing>
         </child>
@@ -473,7 +473,7 @@ Reference level: -62.00
             <property name="label" translatable="yes">Ph+m</property>
           </object>
           <packing>
-            <property name="x">31</property>
+            <property name="x">230</property>
             <property name="y">355</property>
           </packing>
         </child>
@@ -486,73 +486,36 @@ Reference level: -62.00
             <property name="label" translatable="yes">Pc</property>
           </object>
           <packing>
-            <property name="x">31</property>
+            <property name="x">230</property>
             <property name="y">445</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton">
-            <property name="label" translatable="yes">Get data</property>
-            <property name="width-request">100</property>
+            <property name="label" translatable="yes">Clear measurements</property>
+            <property name="width-request">172</property>
+            <property name="height-request">34</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">205</property>
-            <property name="y">80</property>
+            <property name="x">92</property>
+            <property name="y">536</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton">
-            <property name="label" translatable="yes">Get data</property>
-            <property name="width-request">100</property>
+            <property name="label" translatable="yes">Save measurements</property>
+            <property name="width-request">167</property>
+            <property name="height-request">34</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">205</property>
-            <property name="y">170</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">Get data</property>
-            <property name="width-request">100</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-          </object>
-          <packing>
-            <property name="x">205</property>
-            <property name="y">260</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">Get data</property>
-            <property name="width-request">100</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-          </object>
-          <packing>
-            <property name="x">205</property>
-            <property name="y">347</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">Get data</property>
-            <property name="width-request">100</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-          </object>
-          <packing>
-            <property name="x">205</property>
-            <property name="y">440</property>
+            <property name="x">300</property>
+            <property name="y">537</property>
           </packing>
         </child>
       </object>

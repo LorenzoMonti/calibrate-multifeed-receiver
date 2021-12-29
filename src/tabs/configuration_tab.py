@@ -2,6 +2,7 @@ from logging import disable
 from tkinter import Tk
 import Anritsu_MS2830A as SPA
 import Utils
+import logging
 
 try:
     import Tkinter as tk
@@ -181,8 +182,12 @@ def configuration(self, TNotebook1, config_interface, config_file):
         try:
             Utils.write_config_file("../config/config_MS2830A.json", config_file)
             self.Text1.insert(tk.END, "Configuration file written successfully \n")
+            logging.info(__name__ + ' : Configuration file written successfully')
+
         except:
             self.Text1.insert(tk.END, "Error writing configuration file \n")
+            logging.error(__name__ + ' : Error writing configuration file')
+
         
     self.Button1 = tk.Button(self.TNotebook1_t2)
     self.Button1.place(relx=0.035, rely=y_button, height=h_button, width=w_button)
@@ -191,9 +196,8 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Button1.configure(text='''Write configuration''')
 
     def set_conf():
-        global instr
-        instr = SPA.Anritsu_MS2830A("Anritsu_MS2830A",config_interface[self.selected_interface.get()])
-        log_list = Utils.set_SPA_for_measure(instr, config_file, self.Entry10.get())
+        self.instr = SPA.Anritsu_MS2830A("Anritsu_MS2830A",config_interface[self.selected_interface.get()])
+        log_list = Utils.set_SPA_for_measure(self.instr, config_file, self.Entry10.get())
         self.Text1.insert(tk.END, "Configuration\n")
         for l in log_list:
             self.Text1.insert(tk.END, l + "\n")
@@ -206,7 +210,7 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Button2.configure(text='''Set configuration''')
 
     def plot_data():
-        trace = instr.get_trace(1) # Get trace
+        trace = self.instr.get_trace(1) # Get trace
         Utils.plot_lineplot(trace)
         self.Text1.insert(tk.END, "Data plotted\n")
 

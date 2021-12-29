@@ -71,3 +71,26 @@ def write_config_file(filename, confDict):
         json_obj = json.dumps(confDict, indent=4)
         with open(filename, 'w') as file:
                 file.write(json_obj)
+
+def clear_message(self, trace_number):
+        if(trace_number == 0):
+                self.Message1.configure(background="green", font=("Helvetica",24))
+        elif(trace_number == 1):
+                self.Message1.configure(background="#d9d9d9", font=("Helvetica",10))
+                self.Message2.configure(background="green", font=("Helvetica",24))
+        elif(trace_number == 2):
+                self.Message2.configure(background="#d9d9d9", font=("Helvetica",10))
+                self.Message3.configure(background="green", font=("Helvetica",24))
+        elif(trace_number == 3):
+                self.Message3.configure(background="#d9d9d9", font=("Helvetica",10))
+                self.Message4.configure(background="green", font=("Helvetica",24))
+        elif(trace_number == 4):
+                self.Message4.configure(background="#d9d9d9", font=("Helvetica",10))
+                self.Message5.configure(background="green", font=("Helvetica",24))
+
+def clear_background(self):
+        self.Message1.configure(background="#d9d9d9", font=("Helvetica", 10))
+        self.Message2.configure(background="#d9d9d9", font=("Helvetica", 10))
+        self.Message3.configure(background="#d9d9d9", font=("Helvetica", 10))
+        self.Message4.configure(background="#d9d9d9", font=("Helvetica", 10))
+        self.Message5.configure(background="#d9d9d9", font=("Helvetica", 10))
