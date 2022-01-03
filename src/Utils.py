@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 import datetime
 import json
+from math import log10
+
   
 def set_SPA_for_measure(ms2830a, config_file, manual_command):
         """
@@ -71,6 +73,32 @@ def write_config_file(filename, confDict):
         json_obj = json.dumps(confDict, indent=4)
         with open(filename, 'w') as file:
                 file.write(json_obj)
+
+#########################
+#       FORMULAS        #
+#########################
+
+def W2dBm(W):
+    """
+    Function to convert from W to dBm
+    """
+    return 10. * log10(W) + 30
+
+def dBm2W(dBm):
+    """
+    Function to convert from dBm to W
+    """
+    return 10**((dBm)/10.) / 1000
+
+def getWatts(dBm):
+    """
+    Function to return a list of watts values
+    """
+    return map(dBm2W, dBm)
+
+############################
+#           UI             #
+############################
 
 def clear_message(self, trace_number):
         if(trace_number == 0):

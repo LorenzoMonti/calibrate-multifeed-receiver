@@ -1,6 +1,5 @@
 {
     "gpib": "GPIB::18::INSTR",
     "remote_eth": "TCPIP0::localhost::49153::SOCKET",
-    "local_eth": ""
+    "local_eth": "TCPIP0::<ip>::INSTR"
 }
-
