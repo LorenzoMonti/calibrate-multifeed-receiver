@@ -11,9 +11,13 @@ except ImportError:
     py3 = True
 
 from tkinter import filedialog
+from tkinter.constants import ACTIVE, DISABLED
+from tkinter.font import NORMAL
 
 import Utils
 import csv
+import time
+import numpy as np
 import beepy as bp
 
 def measure(self, TNotebook1):
@@ -64,22 +68,21 @@ def measure(self, TNotebook1):
                 
                 Utils.clear_message(self, len(self._traces)) # only for UI
                 try:
-                    self.TextMeasure1.insert(tk.END, "Taking trace...\n")
-                    self._traces.append([self.instr.get_trace(1)]) # Get trace
-                    self.TextMeasure1.insert(tk.END, "Data taken\n")
+                    self.TextMeasure1.insert(tk.END, "\nTaking trace...\n")
+                    self._traces.append(self.instr.get_trace(1)) # Get trace
+                    self.TextMeasure1.insert(tk.END, "\nData taken\n")
                     bp.beep(sound=1)
                 except:
-                    self.TextMeasure1.insert(tk.END, "Connection problem\n")
-                
-                #self._traces.append([1.0,2.0,3.0]) # for test
+                    self.TextMeasure1.insert(tk.END, "\nConnection problem\n")                
             else:
-                self.TextMeasure1.insert(tk.END, "All measurements were successful\n")
+                self.ButtonMeasure2.config(state=NORMAL)
+                self.TextMeasure1.insert(tk.END, "\nAll measurements were successful\n")
                 self.Message5.configure(background="#d9d9d9", font=("Helvetica",10))
 
     
     def clear_measures():
         self._traces.clear()
-        self.TextMeasure1.insert(tk.END, "Measures cleared\n")
+        self.TextMeasure1.insert(tk.END, "\nMeasures cleared\n")
         Utils.clear_background(self)
 
     self.ButtonMeasure1 = tk.Button(self.TNotebook1_t3)
@@ -88,21 +91,30 @@ def measure(self, TNotebook1):
 
     def save_measures():
         
+        
+        dMeasure, drMeasure, Pc, PcPlusM, HpPlusM, Ph, Yvalue = Utils.getCalculus(self._traces)
+        # in order to have cloumns instead rows
+        columns_trace = zip(self._traces[0], self._traces[1], self._traces[2], self._traces[3], self._traces[4], dMeasure, drMeasure, Pc, PcPlusM, HpPlusM, Ph, Yvalue) 
+
         file = filedialog.asksaveasfile(mode="w", defaultextension=".csv")
         
         if file is None:
             return
 
-        writer = csv.writer(file)
-        for row in self._traces:
-            writer.writerow(row)
-        
+        writer = csv.writer(file)        
+        # titles
+        writer.writerow(["RAW:Pc", "RAW:Pc + m", "RAW:Ph", "RAW:Ph + m", "RAW:Pc'", "dMeasure", "drMeasure", "Pc", "PcPlusM", "HpPlusM", "Ph", "Yvalue"]) 
+        # traces and calculus
+        for column_trace in columns_trace:
+            writer.writerow(column_trace) 
+
         file.close()
 
     self.ButtonMeasure2 = tk.Button(self.TNotebook1_t3)
     self.ButtonMeasure2.place(relx=0.335, rely=y_button, height=h_button, width=w_button)
     self.ButtonMeasure2.configure(borderwidth="2")
     self.ButtonMeasure2.configure(command=save_measures)
+    self.ButtonMeasure2.config(state=DISABLED)
     self.ButtonMeasure2.configure(text='''Save measurements''')
 
     # text for log output

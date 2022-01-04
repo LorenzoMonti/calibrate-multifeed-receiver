@@ -181,11 +181,11 @@ def configuration(self, TNotebook1, config_interface, config_file):
         }
         try:
             Utils.write_config_file("../config/config_MS2830A.json", config_file)
-            self.Text1.insert(tk.END, "Configuration file written successfully \n")
+            self.Text1.insert(tk.END, "\nConfiguration file written successfully \n")
             logging.info(__name__ + ' : Configuration file written successfully')
 
         except:
-            self.Text1.insert(tk.END, "Error writing configuration file \n")
+            self.Text1.insert(tk.END, "\nError writing configuration file \n")
             logging.error(__name__ + ' : Error writing configuration file')
 
         
@@ -196,11 +196,14 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Button1.configure(text='''Write configuration''')
 
     def set_conf():
-        self.instr = SPA.Anritsu_MS2830A("Anritsu_MS2830A",config_interface[self.selected_interface.get()])
-        log_list = Utils.set_SPA_for_measure(self.instr, config_file, self.Entry10.get())
-        self.Text1.insert(tk.END, "Configuration\n")
-        for l in log_list:
-            self.Text1.insert(tk.END, l + "\n")
+        try:
+            self.instr = SPA.Anritsu_MS2830A("Anritsu_MS2830A",config_interface[self.selected_interface.get()])
+            log_list = Utils.set_SPA_for_measure(self.instr, config_file, self.Entry10.get())
+            self.Text1.insert(tk.END, "\nConfiguration\n")
+            for log in log_list:
+                self.Text1.insert(tk.END, "\t" + log + "\n")
+        except:
+            self.Text1.insert(tk.END, "\nConnection problem\n")
 
 
     self.Button2 = tk.Button(self.TNotebook1_t2)
@@ -212,7 +215,7 @@ def configuration(self, TNotebook1, config_interface, config_file):
     def plot_data():
         trace = self.instr.get_trace(1) # Get trace
         Utils.plot_lineplot(trace)
-        self.Text1.insert(tk.END, "Data plotted\n")
+        self.Text1.insert(tk.END, "\nData plotted\n")
 
 
     self.Button3 = tk.Button(self.TNotebook1_t2)

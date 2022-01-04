@@ -96,6 +96,17 @@ def getWatts(dBm):
     """
     return map(dBm2W, dBm)
 
+def getCalculus(traces):
+    dMeasure = traces[4] - traces[0]
+    drMeasure = traces[4] / traces[0]
+
+    Pc = traces[0] + (0 * (dMeasure / 4))
+    PcPlusM = traces[1] + (1 * (dMeasure / 4))
+    HpPlusM = traces[2] + (2 * (dMeasure / 4))
+    Ph = traces[3] + (3 * (dMeasure / 4))
+    Yvalue = Ph / Pc
+    return dMeasure, drMeasure, Pc, PcPlusM, HpPlusM, Ph, Yvalue
+
 ############################
 #           UI             #
 ############################
