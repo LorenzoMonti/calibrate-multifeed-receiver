@@ -68,7 +68,7 @@ def measure(self, TNotebook1):
                 
                 Utils.clear_message(self, len(self._traces)) # only for UI
                 try:
-                    self.TextMeasure1.insert(tk.END, "\nTaking trace...\n")
+                    self.TextMeasure1.insert(tk.END, "\nTaking trace...")
                     self._traces.append(self.instr.get_trace(1)) # Get trace
                     self.TextMeasure1.insert(tk.END, "\nData taken\n")
                     bp.beep(sound=1)
@@ -90,17 +90,23 @@ def measure(self, TNotebook1):
     self.ButtonMeasure1.configure(borderwidth="2", text='''Clear measurements''', command = clear_measures)
 
     def save_measures():
-        
-        
-        dMeasure, drMeasure, Pc, PcPlusM, HpPlusM, Ph, Yvalue = Utils.getCalculus(self._traces)
-        # in order to have cloumns instead rows
+
+        # convert dBm in watts
+        watt_traces = list()
+        for trace in self._traces:
+            watt_traces.append(np.array(list(Utils.getWatts(trace))))
+
+        # get calculus
+        dMeasure, drMeasure, Pc, PcPlusM, HpPlusM, Ph, Yvalue = Utils.getCalculus(watt_traces)
+        # traspose rows in columns
         columns_trace = zip(self._traces[0], self._traces[1], self._traces[2], self._traces[3], self._traces[4], dMeasure, drMeasure, Pc, PcPlusM, HpPlusM, Ph, Yvalue) 
 
+        # open file dialog
         file = filedialog.asksaveasfile(mode="w", defaultextension=".csv")
-        
         if file is None:
             return
 
+        # write CSV
         writer = csv.writer(file)        
         # titles
         writer.writerow(["RAW:Pc", "RAW:Pc + m", "RAW:Ph", "RAW:Ph + m", "RAW:Pc'", "dMeasure", "drMeasure", "Pc", "PcPlusM", "HpPlusM", "Ph", "Yvalue"]) 
