@@ -42,15 +42,15 @@ def connect(self, TNotebook1, config_interface, config_file):
 
     # label
     self.LabelTitle1 = tk.Label(self.TNotebook1_t1)
-    self.LabelTitle1.place(relx=0.005, rely=0.004, height=h_label, width=w_label)
+    self.LabelTitle1.place(relx=0.005, rely=0.064, height=h_label, width=w_label)
     self.LabelTitle1.configure(text='''Select interface''', font=font_title)
 
     self.LabelConnect = tk.Label(self.TNotebook1_t1)
-    self.LabelConnect.place(relx=x_label, rely=0.042, height=h_label, width=w_label)
+    self.LabelConnect.place(relx=x_label, rely=0.102, height=h_label, width=w_label)
     self.LabelConnect.configure(text='''Interface''', font=font_label)
 
     self.LabelEntryMenu =  tk.Label(self.TNotebook1_t1)
-    self.LabelEntryMenu.place(relx=x_label, rely=0.113, height=h_label, width=w_label)
+    self.LabelEntryMenu.place(relx=x_label, rely=0.173, height=h_label, width=w_label)
     self.LabelEntryMenu.configure(text='''Interface selected''', font=font_label)
 
     options = [interface_key for interface_key, interface_value in config_interface.items()]
@@ -59,31 +59,31 @@ def connect(self, TNotebook1, config_interface, config_file):
     
        
     self.EntryMenu = tk.Entry(self.TNotebook1_t1, textvariable= self.selected_interface)
-    self.EntryMenu.place(relx=x_text, rely=0.113, relheight=h_text, relwidth=w_text) 
+    self.EntryMenu.place(relx=x_text, rely=0.173, relheight=h_text, relwidth=w_text) 
     self.EntryMenu.configure(background='#d9d9d9')
     self.EntryMenu.configure(font=font_label)
 
     self.drop = tk.OptionMenu( self.TNotebook1_t1 , self.selected_interface, *options)
-    self.drop.place(relx=x_text, rely=0.042, relheight=h_text, relwidth=w_text)
+    self.drop.place(relx=x_text, rely=0.102, relheight=h_text, relwidth=w_text)
 
     self.LabelTitle2 = tk.Label(self.TNotebook1_t1)
-    self.LabelTitle2.place(relx=0.005, rely=0.204, height=h_label, width=w_label)
+    self.LabelTitle2.place(relx=0.005, rely=0.277, height=h_label, width=w_label)
     self.LabelTitle2.configure(text='''Configure interfaces''', font=font_title)
 
     self.Label1Connect = tk.Label(self.TNotebook1_t1)
-    self.Label1Connect.place(relx=x_label, rely=0.255, height=h_label, width=w_label)
+    self.Label1Connect.place(relx=x_label, rely=0.315, height=h_label, width=w_label)
     self.Label1Connect.configure(text='''GPIB''', font=font_label)
 
     self.Label2Connect = tk.Label(self.TNotebook1_t1)
-    self.Label2Connect.place(relx=x_label, rely=0.326, height=h_label, width=w_label)
+    self.Label2Connect.place(relx=x_label, rely=0.386, height=h_label, width=w_label)
     self.Label2Connect.configure(text='''Remote ETH connection''', font=font_label)
 
     self.Label3Connect = tk.Label(self.TNotebook1_t1)
-    self.Label3Connect.place(relx=x_label, rely=0.397, height=h_label, width=w_label)
+    self.Label3Connect.place(relx=x_label, rely=0.457, height=h_label, width=w_label)
     self.Label3Connect.configure(text='''Local ETH connection''', font=font_label)
 
     self.Entry1Connect = tk.Entry(self.TNotebook1_t1)
-    self.Entry1Connect.place(relx=x_text, rely=0.255, relheight=h_text, relwidth=w_text)
+    self.Entry1Connect.place(relx=x_text, rely=0.315, relheight=h_text, relwidth=w_text)
     self.Entry1Connect.configure(background="white")
     self.Entry1Connect.configure(font=font_label)
     self.Entry1Connect.configure(selectbackground="blue")
@@ -91,7 +91,7 @@ def connect(self, TNotebook1, config_interface, config_file):
     self.Entry1Connect.insert(0, config_interface["gpib"])
 
     self.Entry2Connect = tk.Entry(self.TNotebook1_t1)
-    self.Entry2Connect.place(relx=x_text, rely=0.326, relheight=h_text, relwidth=w_text)
+    self.Entry2Connect.place(relx=x_text, rely=0.386, relheight=h_text, relwidth=w_text)
     self.Entry2Connect.configure(background="white")
     self.Entry2Connect.configure(font=font_label)
     self.Entry2Connect.configure(selectbackground="blue")
@@ -99,7 +99,7 @@ def connect(self, TNotebook1, config_interface, config_file):
     self.Entry2Connect.insert(0, config_interface["remote_eth"])
 
     self.Entry3Connect = tk.Entry(self.TNotebook1_t1)
-    self.Entry3Connect.place(relx=x_text, rely=0.397, relheight=h_text, relwidth=w_text)
+    self.Entry3Connect.place(relx=x_text, rely=0.457, relheight=h_text, relwidth=w_text)
     self.Entry3Connect.configure(background="white")
     self.Entry3Connect.configure(font=font_label)
     self.Entry3Connect.configure(selectbackground="blue")

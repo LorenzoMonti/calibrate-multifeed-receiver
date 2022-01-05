@@ -7,6 +7,7 @@
 
 import sys
 from tkinter import Radiobutton
+from tkinter.constants import DISABLED
 from typing import Text
 from matplotlib.pyplot import text
 
@@ -104,6 +105,8 @@ class UserInterface:
         connect_tab.connect(self, self.TNotebook1, config_interface, config_file)
         configuration_tab.configuration(self, self.TNotebook1, config_interface, config_file)
         measure_tab.measure(self,self.TNotebook1)
+        
+        self.TNotebook1.tab(2, state=DISABLED)
 
 if __name__ == '__main__':
     vp_start_gui()

@@ -39,7 +39,7 @@ def measure(self, TNotebook1):
 
     self.TNotebook1_t3 = tk.Frame(TNotebook1)
     self.TNotebook1.add(self.TNotebook1_t3, padding=3)
-    self.TNotebook1.tab(2, text="Measure",compound="left",underline="-1",)
+    self.TNotebook1.tab(2, text="Measure", compound="left", underline="-1")
 
     self.Message1 = tk.Message(self.TNotebook1_t3)
     self.Message1.place(relx=x_message, rely=0.08, relheight=h_message, relwidth=w_message)
@@ -113,8 +113,10 @@ def measure(self, TNotebook1):
         # traces and calculus
         for column_trace in columns_trace:
             writer.writerow(column_trace) 
-
         file.close()
+        
+        # write in log output
+        self.TextMeasure1.insert(tk.END, "\nFile written succesfully\n")
 
     self.ButtonMeasure2 = tk.Button(self.TNotebook1_t3)
     self.ButtonMeasure2.place(relx=0.335, rely=y_button, height=h_button, width=w_button)

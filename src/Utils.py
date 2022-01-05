@@ -6,6 +6,11 @@ import datetime
 import json
 from math import log10
 
+
+"""
+Python module that contains utily functions for the Anritsu MS2830A Signal Source Analyzer and measurements
+    
+"""
   
 def set_SPA_for_measure(ms2830a, config_file, manual_command):
         """
@@ -50,7 +55,10 @@ def set_SPA_for_measure(ms2830a, config_file, manual_command):
         return log_list
 
 def plot_lineplot(trace):
+        """
+        Plot trace retrieved from Anritsu MS2830A Signal Source Analyzer
         
+        """
         x = np.arange(len(trace)) # x axis
         dataset = pd.DataFrame({"points": x , "dbM": trace})
 
@@ -60,16 +68,28 @@ def plot_lineplot(trace):
 
 
 def save_data_as_csv(trace):
+        """
+        Utility function for saving data in csv extension
+        
+        """
         dataset = pd.DataFrame(trace)
         dataset.to_csv("../data/measure-" + str(datetime.datetime.now()) + ".csv")
 
 def read_config_file(filename):
+        """
+        Utility function for reading configuration file (JSON)
+        
+        """
         data = []
         with open(filename, 'r') as file:
                 data = file.read()
         return json.loads(data)
 
 def write_config_file(filename, confDict):
+        """
+        Utility function for writing configuration file (JSON)
+        
+        """
         json_obj = json.dumps(confDict, indent=4)
         with open(filename, 'w') as file:
                 file.write(json_obj)
@@ -81,22 +101,29 @@ def write_config_file(filename, confDict):
 def W2dBm(W):
     """
     Function to convert from W to dBm
+    
     """
     return 10. * log10(W) + 30
 
 def dBm2W(dBm):
     """
     Function to convert from dBm to W
+    
     """
     return 10**((dBm)/10.) / 1000
 
 def getWatts(dBm):
     """
     Function to return a list of watts values
+    
     """
     return map(dBm2W, dBm)
 
 def getCalculus(traces):
+    """
+    Function that returns useful calculus from trace data
+    
+    """
     dMeasure = traces[4] - traces[0]
     drMeasure = traces[4] / traces[0]
 
@@ -112,6 +139,10 @@ def getCalculus(traces):
 ############################
 
 def clear_message(self, trace_number):
+        """
+        UI function
+
+        """
         if(trace_number == 0):
                 self.Message1.configure(background="green", font=("Helvetica",24))
         elif(trace_number == 1):
@@ -128,6 +159,10 @@ def clear_message(self, trace_number):
                 self.Message5.configure(background="green", font=("Helvetica",24))
 
 def clear_background(self):
+        """
+        UI function
+        
+        """
         self.Message1.configure(background="#d9d9d9", font=("Helvetica", 10))
         self.Message2.configure(background="#d9d9d9", font=("Helvetica", 10))
         self.Message3.configure(background="#d9d9d9", font=("Helvetica", 10))

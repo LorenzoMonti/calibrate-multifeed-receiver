@@ -1,5 +1,7 @@
 from logging import disable
 from tkinter import Tk
+from tkinter.constants import DISABLED
+from tkinter.font import NORMAL
 import Anritsu_MS2830A as SPA
 import Utils
 import logging
@@ -27,9 +29,13 @@ def configuration(self, TNotebook1, config_interface, config_file):
     h_text = 0.029
     w_text = 0.291
 
-    y_button = 0.739
+    y_button = 0.749
     h_button = 40
     w_button = 150
+    
+    # fonts
+    font_label = ("Arial",10)
+    font_title = ("Arial",12)
 
     ##################################
     # 	          TAB 2	        	 #
@@ -39,49 +45,53 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.TNotebook1.add(self.TNotebook1_t2, padding=3)
     self.TNotebook1.tab(1, text="Configuration",compound="left",underline="-1",)
 
+    self.LabelTitleConfig = tk.Label(self.TNotebook1_t2)
+    self.LabelTitleConfig.place(relx=0.005, rely=0.014, height=h_label, width=w_label)
+    self.LabelTitleConfig.configure(text='''Configuration''', font=font_title)
+
     self.Label1 = tk.Label(self.TNotebook1_t2)
-    self.Label1.place(relx=x_label, rely=0.042, height=h_label, width=w_label)
+    self.Label1.place(relx=x_label, rely=0.052, height=h_label, width=w_label)
     self.Label1.configure(text='''Start frequency''')
 
     self.Label2 = tk.Label(self.TNotebook1_t2)
-    self.Label2.place(relx=x_label, rely=0.113, height=h_label, width=w_label)
+    self.Label2.place(relx=x_label, rely=0.123, height=h_label, width=w_label)
     self.Label2.configure(text='''Stop Frequency''')
 
     self.Label3 = tk.Label(self.TNotebook1_t2)
-    self.Label3.place(relx=x_label, rely=0.184, height=h_label, width=w_label)
+    self.Label3.place(relx=x_label, rely=0.194, height=h_label, width=w_label)
     self.Label3.configure(text='''Sweep Trace Points''')
 
     self.Label4 = tk.Label(self.TNotebook1_t2)
-    self.Label4.place(relx=x_label, rely=0.255, height=h_label, width=w_label)
+    self.Label4.place(relx=x_label, rely=0.265, height=h_label, width=w_label)
     self.Label4.configure(text='''Resolution Bandwith''')
 
     self.Label5 = tk.Label(self.TNotebook1_t2)
-    self.Label5.place(relx=x_label, rely=0.326, height=h_label, width=w_label)
+    self.Label5.place(relx=x_label, rely=0.336, height=h_label, width=w_label)
     self.Label5.configure(text='''Video Bandwith''')
 
     self.Label6 = tk.Label(self.TNotebook1_t2)
-    self.Label6.place(relx=x_label, rely=0.397, height=h_label, width=w_label)
+    self.Label6.place(relx=x_label, rely=0.407, height=h_label, width=w_label)
     self.Label6.configure(text='''Amplitude log scale''')
 
     self.Label7 = tk.Label(self.TNotebook1_t2)
-    self.Label7.place(relx=x_label, rely=0.468, height=h_label, width=w_label)
+    self.Label7.place(relx=x_label, rely=0.478, height=h_label, width=w_label)
     self.Label7.configure(text='''Reference Level''')
 
     self.Label8 = tk.Label(self.TNotebook1_t2)
-    self.Label8.place(relx=x_label, rely=0.539, height=h_label, width=w_label)
+    self.Label8.place(relx=x_label, rely=0.549, height=h_label, width=w_label)
     self.Label8.configure(text='''Zoom Spot Marker number''')
     
     self.Label9 = tk.Label(self.TNotebook1_t2)
-    self.Label9.place(relx=x_label, rely=0.61, height=h_label, width=w_label)
+    self.Label9.place(relx=x_label, rely=0.62, height=h_label, width=w_label)
     self.Label9.configure(text='''Zoom Spot Marker type''')
 
     self.Label10 = tk.Label(self.TNotebook1_t2)
-    self.Label10.place(relx=x_label, rely=0.681, height=h_label, width=w_label)
+    self.Label10.place(relx=x_label, rely=0.691, height=h_label, width=w_label)
     self.Label10.configure(text='''Manual commands''')
 
     # entry
     self.Entry1 = tk.Entry(self.TNotebook1_t2)
-    self.Entry1.place(relx=x_text, rely=0.042, relheight=h_text, relwidth=w_text)
+    self.Entry1.place(relx=x_text, rely=0.052, relheight=h_text, relwidth=w_text)
     self.Entry1.configure(background="white")
     self.Entry1.configure(font="TkTextFont")
     self.Entry1.configure(selectbackground="blue")
@@ -89,7 +99,7 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Entry1.insert(0, config_file["start_freq"])
 
     self.Entry2 = tk.Entry(self.TNotebook1_t2)
-    self.Entry2.place(relx=x_text, rely=0.113, relheight=h_text, relwidth=w_text)
+    self.Entry2.place(relx=x_text, rely=0.123, relheight=h_text, relwidth=w_text)
     self.Entry2.configure(background="white")
     self.Entry2.configure(font="TkTextFont")
     self.Entry2.configure(selectbackground="blue")
@@ -97,7 +107,7 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Entry2.insert(0, config_file["stop_freq"])
 
     self.Entry3 = tk.Entry(self.TNotebook1_t2)
-    self.Entry3.place(relx=x_text, rely=0.184, relheight=h_text, relwidth=w_text)
+    self.Entry3.place(relx=x_text, rely=0.194, relheight=h_text, relwidth=w_text)
     self.Entry3.configure(background="white")
     self.Entry3.configure(font="TkTextFont")
     self.Entry3.configure(selectbackground="blue")
@@ -105,7 +115,7 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Entry3.insert(0, config_file["sweep_trace_points"])
 
     self.Entry4 = tk.Entry(self.TNotebook1_t2)
-    self.Entry4.place(relx=x_text, rely=0.255, relheight=h_text, relwidth=w_text)
+    self.Entry4.place(relx=x_text, rely=0.265, relheight=h_text, relwidth=w_text)
     self.Entry4.configure(background="white")
     self.Entry4.configure(font="TkTextFont")
     self.Entry4.configure(selectbackground="blue")
@@ -113,7 +123,7 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Entry4.insert(0, config_file["resolution_bandwith"])
 
     self.Entry5 = tk.Entry(self.TNotebook1_t2)
-    self.Entry5.place(relx=x_text, rely=0.326, relheight=h_text, relwidth=w_text)
+    self.Entry5.place(relx=x_text, rely=0.336, relheight=h_text, relwidth=w_text)
     self.Entry5.configure(background="white")
     self.Entry5.configure(font="TkTextFont")
     self.Entry5.configure(selectbackground="blue")
@@ -121,7 +131,7 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Entry5.insert(0, config_file["video_bandwith"])
 
     self.Entry6 = tk.Entry(self.TNotebook1_t2)
-    self.Entry6.place(relx=x_text, rely=0.397, relheight=h_text, relwidth=w_text)
+    self.Entry6.place(relx=x_text, rely=0.407, relheight=h_text, relwidth=w_text)
     self.Entry6.configure(background="white")
     self.Entry6.configure(font="TkTextFont")
     self.Entry6.configure(selectbackground="blue")
@@ -129,7 +139,7 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Entry6.insert(0, config_file["amplitude_log_scale"])
 
     self.Entry7 = tk.Entry(self.TNotebook1_t2)
-    self.Entry7.place(relx=x_text, rely=0.468, relheight=h_text, relwidth=w_text)
+    self.Entry7.place(relx=x_text, rely=0.478, relheight=h_text, relwidth=w_text)
     self.Entry7.configure(background="white")
     self.Entry7.configure(font="TkTextFont")
     self.Entry7.configure(selectbackground="blue")
@@ -137,7 +147,7 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Entry7.insert(0, config_file["reference_level"])
 
     self.Entry8 = tk.Entry(self.TNotebook1_t2)
-    self.Entry8.place(relx=x_text, rely=0.539, relheight=h_text, relwidth=w_text)
+    self.Entry8.place(relx=x_text, rely=0.549, relheight=h_text, relwidth=w_text)
     self.Entry8.configure(background="white")
     self.Entry8.configure(font="TkTextFont")
     self.Entry8.configure(selectbackground="blue")
@@ -145,7 +155,7 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Entry8.insert(0, config_file["zoom_spot_marker"][0])
 
     self.Entry9 = tk.Entry(self.TNotebook1_t2)
-    self.Entry9.place(relx=x_text, rely=0.61, relheight=h_text, relwidth=w_text)
+    self.Entry9.place(relx=x_text, rely=0.62, relheight=h_text, relwidth=w_text)
     self.Entry9.configure(background="white")
     self.Entry9.configure(font="TkTextFont")
     self.Entry9.configure(selectbackground="blue")
@@ -153,7 +163,7 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Entry9.insert(0, config_file["zoom_spot_marker"][1])
 
     self.Entry10 = tk.Entry(self.TNotebook1_t2)
-    self.Entry10.place(relx=x_text, rely=0.681, relheight=h_text, relwidth=w_text)
+    self.Entry10.place(relx=x_text, rely=0.691, relheight=h_text, relwidth=w_text)
     self.Entry10.configure(background="white")
     self.Entry10.configure(font="TkTextFont")
     self.Entry10.configure(selectbackground="blue")
@@ -202,6 +212,9 @@ def configuration(self, TNotebook1, config_interface, config_file):
             self.Text1.insert(tk.END, "\nConfiguration\n")
             for log in log_list:
                 self.Text1.insert(tk.END, "\t" + log + "\n")
+            
+            self.TNotebook1.tab(2, state=NORMAL)
+            self.Button3.config(state=NORMAL)
         except:
             self.Text1.insert(tk.END, "\nConnection problem\n")
 
@@ -222,4 +235,5 @@ def configuration(self, TNotebook1, config_interface, config_file):
     self.Button3.place(relx=0.665, rely=y_button, height=h_button, width=w_button)
     self.Button3.configure(command=plot_data)
     self.Button3.configure(borderwidth="2")
+    self.Button3.configure(state=DISABLED)
     self.Button3.configure(text='''Plot data''')
