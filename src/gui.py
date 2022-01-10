@@ -10,6 +10,7 @@ from tkinter import Radiobutton
 from tkinter.constants import DISABLED
 from typing import Text
 from matplotlib.pyplot import text
+import ctypes
 
 from numpy.lib.function_base import insert, select
 import Anritsu_MS2830A as SPA
@@ -27,12 +28,17 @@ try:
 except ImportError:
     import tkinter.ttk as ttk
     py3 = True
+
 import gui_support
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w, root
     root = tk.Tk()
+    # Simply set the theme
+    root.tk.call("source", "azure.tcl")
+    root.tk.call("set_theme", "light")
+
     top = UserInterface (root)
     gui_support.init(root, top)
     root.mainloop()
@@ -46,6 +52,7 @@ def create_UserInterface(rt, *args, **kwargs):
     root = rt
     w = tk.Toplevel(root)
     top = UserInterface(w)
+    ctypes.windll.shcore.SetProcessDpiAwareness(1)
     gui_support.init(w, top, *args, **kwargs)
     return (w, top)
 
@@ -58,24 +65,12 @@ class UserInterface:
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
-        _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
-        _fgcolor = '#000000'  # X11 color: 'black'
-        _compcolor = '#d9d9d9' # X11 color: 'gray85'
-        _ana1color = '#d9d9d9' # X11 color: 'gray85'
-        _ana2color = '#ececec' # Closest X11 color: 'gray92'
-        self.style = ttk.Style()
-        if sys.platform == "win32":
-            self.style.theme_use('winnative')
-        self.style.configure('.',background=_bgcolor)
-        self.style.configure('.',foreground=_fgcolor)
-        self.style.configure('.',font="TkDefaultFont")
-        self.style.map('.',background=
-            [('selected', _compcolor), ('active',_ana2color)])
+        
 
-        top.geometry("600x736+308+141")
-        top.minsize(1, 1)
+        top.geometry("1600x800")
+        top.minsize(200, 100)
         top.maxsize(3825, 2130)
-        top.resizable(1,  1)
+        top.resizable(1,  2)
         top.title("Multifeed receiver measure")
 
         #############################
@@ -84,11 +79,6 @@ class UserInterface:
         config_interface = Utils.read_config_file("../config/config_interface.json")
         config_file = Utils.read_config_file("../config/config_MS2830A.json")
         ##############################
-
-        self.style.configure('TNotebook.Tab', background=_bgcolor)
-        self.style.configure('TNotebook.Tab', foreground=_fgcolor)
-        self.style.map('TNotebook.Tab', background=
-            [('selected', _compcolor), ('active',_ana2color)])
         
         #############################
         # NOTEBOOK CREATION

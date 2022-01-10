@@ -163,8 +163,8 @@ def clear_background(self):
         UI function
         
         """
-        self.Message1.configure(background="#d9d9d9", font=("Helvetica", 10))
-        self.Message2.configure(background="#d9d9d9", font=("Helvetica", 10))
-        self.Message3.configure(background="#d9d9d9", font=("Helvetica", 10))
-        self.Message4.configure(background="#d9d9d9", font=("Helvetica", 10))
-        self.Message5.configure(background="#d9d9d9", font=("Helvetica", 10))
+        self.Message1.configure(background="#ffffff", font=("Helvetica", 10))
+        self.Message2.configure(background="#ffffff", font=("Helvetica", 10))
+        self.Message3.configure(background="#ffffff", font=("Helvetica", 10))
+        self.Message4.configure(background="#ffffff", font=("Helvetica", 10))
+        self.Message5.configure(background="#ffffff", font=("Helvetica", 10))
