@@ -9,7 +9,8 @@ import time
 import numpy as np
 
 resource_man = pyvisa.ResourceManager("@py")
-inst = resource_man.open_resource("TCPIP0::localhost::49153::SOCKET", write_termination = '\n',read_termination='\n')
+print(resource_man.list_resources("?*")) # all resources
+inst = resource_man.open_resource("TCPIP0::192.168.60.41::49153::SOCKET", write_termination = '\n',read_termination='\n')
 print("Who am i? " + inst.query("*IDN?"))
 
 inst.write("*RST") # Preset

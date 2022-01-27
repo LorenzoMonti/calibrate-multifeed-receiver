@@ -16,7 +16,7 @@ class Anritsu_MS2830A():
         Initializes 
         Input:
             name (string)    : name of the instrument
-            address (string) : GPIB address
+            address (string) : GPIB or ETH address
         """
         
         logging.info(__name__ + ' : Initializing instrument')

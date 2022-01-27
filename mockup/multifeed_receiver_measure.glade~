@@ -39,14 +39,40 @@
         <child>
           <object class="GtkEntry">
             <property name="width-request">589</property>
-            <property name="height-request">150</property>
+            <property name="height-request">250</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
+            <property name="margin-bottom">64</property>
             <property name="text" translatable="yes">Interface chosen: GPIB</property>
           </object>
           <packing>
-            <property name="x">16</property>
-            <property name="y">595</property>
+            <property name="x">600</property>
+            <property name="y">100</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkAccelLabel">
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Interface selected</property>
+          </object>
+          <packing>
+            <property name="x">131</property>
+            <property name="y">200</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry">
+            <property name="width-request">220</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="max-width-chars">101</property>
+          </object>
+          <packing>
+            <property name="x">256</property>
+            <property name="y">220</property>
           </packing>
         </child>
       </object>

@@ -129,10 +129,13 @@ def getCalculus(traces):
 
     Pc = traces[0] + (0 * (dMeasure / 4))
     PcPlusM = traces[1] + (1 * (dMeasure / 4))
-    HpPlusM = traces[2] + (2 * (dMeasure / 4))
+    PhPlusM = traces[2] + (2 * (dMeasure / 4))
     Ph = traces[3] + (3 * (dMeasure / 4))
     Yvalue = Ph / Pc
-    return dMeasure, drMeasure, Pc, PcPlusM, HpPlusM, Ph, Yvalue
+    #Trx = (Th - (Yvalue * Tc)) / (Yvalue - 1)
+    #Tm = ((Th - Tc) / (Ph - Pc)) * (PcPlusM - Pc)
+    #Thm = ((Th - Tc) / (Ph - Pc)) * (PhPlusM - Ph)
+    return dMeasure, drMeasure, Pc, PcPlusM, PhPlusM, Ph, Yvalue #,Trx, Tm, Thm
 
 ############################
 #           UI             #

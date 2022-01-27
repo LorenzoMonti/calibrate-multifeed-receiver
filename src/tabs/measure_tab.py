@@ -87,13 +87,48 @@ def measure(self, TNotebook1):
                 self.Message5.configure(background="#d9d9d9", font=("Helvetica",10))
 
     # frame for the buttons measure
-    self.button_mea_frame = ttk.LabelFrame(self.TNotebook1_t3, text="Actions", padding=(20, 10))
+    self.button_mea_frame = ttk.LabelFrame(self.TNotebook1_t3, text="Settings", padding=(20, 10))
     self.button_mea_frame.grid(
         row=0, column=1, padx=(20, 10), pady=(20, 10), sticky="nsew"
     )
     
+    #label
+    self.Label1 = ttk.Label(self.button_mea_frame)
+    self.Label1.grid(row=1, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
+    self.Label1.configure(text='''Channel''')
+
+    self.Label2 = ttk.Label(self.button_mea_frame)
+    self.Label2.grid(row=2, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
+    self.Label2.configure(text='''Polarization''')
+
+    self.Label3 = ttk.Label(self.button_mea_frame)
+    self.Label3.grid(row=3, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
+    self.Label3.configure(text='''Tc''')
+    
+    self.Label4 = ttk.Label(self.button_mea_frame)
+    self.Label4.grid(row=4, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
+    self.Label4.configure(text='''Th''')
+
+    # entry
+    self.MeasureEntry1 = ttk.Entry(self.button_mea_frame)
+    self.MeasureEntry1.grid(row=1, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
+
+    self.MeasureEntry2 = ttk.Entry(self.button_mea_frame)
+    self.MeasureEntry2.grid(row=2, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
+
+    self.MeasureEntry3 = ttk.Entry(self.button_mea_frame)
+    self.MeasureEntry3.grid(row=3, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
+
+    self.MeasureEntry4 = ttk.Entry(self.button_mea_frame)
+    self.MeasureEntry4.grid(row=4, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
+
+    # separator
+    self.separatorMeasure = ttk.Separator(self.button_mea_frame)
+    self.separatorMeasure.grid(row=5, column=0, padx=(20, 10), pady=50, sticky="ew")
+
+    # buttons
     self.ButtonMeasure = ttk.Button(self.button_mea_frame)
-    self.ButtonMeasure.grid(row=1, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
+    self.ButtonMeasure.grid(row=6, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
     self.ButtonMeasure.configure(text='''Take measurement''', command = take_trace)
     
     def clear_measures():
@@ -102,7 +137,7 @@ def measure(self, TNotebook1):
         Utils.clear_background(self)
 
     self.ButtonMeasure1 = ttk.Button(self.button_mea_frame)
-    self.ButtonMeasure1.grid(row=2, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
+    self.ButtonMeasure1.grid(row=7, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
     self.ButtonMeasure1.configure(text='''Clear measurements''', command = clear_measures)
 
     def save_measures():
@@ -135,7 +170,7 @@ def measure(self, TNotebook1):
         self.TextMeasure1.insert(tk.END, "\nFile written succesfully\n")
 
     self.ButtonMeasure2 = ttk.Button(self.button_mea_frame)
-    self.ButtonMeasure2.grid(row=3, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
+    self.ButtonMeasure2.grid(row=8, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
     self.ButtonMeasure2.configure(command=save_measures, text='''Save measurements''')
     self.ButtonMeasure2.config(state=DISABLED)
 
