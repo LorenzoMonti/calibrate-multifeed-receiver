@@ -27,7 +27,7 @@ def set_SPA_for_measure(ms2830a, config_file, manual_command):
 
         log_list.append("Start Frequency: " + str(ms2830a.do_get_startfreq()))
         log_list.append("Stop Frequency: " + str(ms2830a.do_get_stopfreq()))
-        log_list.append("Center Frequency: " + str(ms2830a.do_get_centerfreq()))
+        #log_list.append("Center Frequency: " + str(ms2830a.do_get_centerfreq()))
         
         # Time sweep
         ms2830a.set_trace_points_sweeptime(config_file["sweep_trace_points"])
