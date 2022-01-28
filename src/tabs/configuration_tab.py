@@ -2,6 +2,7 @@ from logging import disable
 from tkinter import Tk
 from tkinter.constants import DISABLED
 from tkinter.font import NORMAL
+from tokenize import Double
 import Anritsu_MS2830A as SPA
 import Utils
 import logging
@@ -125,11 +126,11 @@ def configuration(self, TNotebook1, config_interface, config_file):
     # function for button "Write configuration"
     def write_conf():
         config_file = {
-            "start_freq": int(self.Entry1.get()),
-            "stop_freq": int(self.Entry2.get()),
+            "start_freq": float(self.Entry1.get()),
+            "stop_freq": float(self.Entry2.get()),
             "sweep_trace_points": int(self.Entry3.get()),
-            "resolution_bandwith": int(self.Entry4.get()),
-            "video_bandwith": int(self.Entry5.get()),
+            "resolution_bandwith": float(self.Entry4.get()),
+            "video_bandwith": float(self.Entry5.get()),
             "amplitude_log_scale": int(self.Entry6.get()),
             "reference_level": int(self.Entry7.get()),
             "zoom_spot_marker": [int(self.Entry8.get()), self.Entry9.get()]

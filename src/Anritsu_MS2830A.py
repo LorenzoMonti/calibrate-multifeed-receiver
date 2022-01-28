@@ -72,7 +72,7 @@ class Anritsu_MS2830A():
         """
         sets the resolution bandwidth
         """
-        self._visainstrument.write('RB %e'%(BW))
+        self._visainstrument.write('RB %f'%(BW))
 
     def do_get_resolutionBW(self):
         """
@@ -84,7 +84,7 @@ class Anritsu_MS2830A():
         """
         sets the video bandwidth
         """
-        self._visainstrument.write('VB %e'%(BW))
+        self._visainstrument.write('VB %f'%(BW))
 
     def do_get_videoBW(self):
         """
@@ -141,7 +141,8 @@ class Anritsu_MS2830A():
         """
         sets the center frequency
         """
-        self._visainstrument.write('CNF %e' % (centerfreq))
+        self._visainstrument.write('CNF %f' % (centerfreq))
+
 
     def do_get_centerfreq(self):
         """
@@ -153,7 +154,7 @@ class Anritsu_MS2830A():
         """
         sets the frequency span
         """
-        self._visainstrument.write('freq:span %e'%(freqspan))
+        self._visainstrument.write('freq:span %f'%(freqspan))
     
     def do_get_freqspan(self):
         """
@@ -167,7 +168,8 @@ class Anritsu_MS2830A():
         sets the start frequency
         
         """
-        self._visainstrument.write('STF %e'%(freq))
+
+        self._visainstrument.write('STF %f'%(freq))
 
     def do_get_startfreq(self):
         """
@@ -181,7 +183,7 @@ class Anritsu_MS2830A():
         sets the stop frequency
         
         """
-        self._visainstrument.write('SOF %e'%(freq))
+        self._visainstrument.write('SOF %f'%(freq))
 
     def do_get_stopfreq(self):
         """
