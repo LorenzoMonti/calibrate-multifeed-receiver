@@ -92,7 +92,7 @@ class UserInterface:
         #############################
         # TABS CREATION
         #############################
-        connect_tab.connect(self, self.TNotebook1, config_interface, config_file)
+        connect_tab.connect(self, self.TNotebook1, config_interface)
         configuration_tab.configuration(self, self.TNotebook1, config_interface, config_file)
         measure_tab.measure(self,self.TNotebook1)
         

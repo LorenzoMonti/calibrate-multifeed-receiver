@@ -15,7 +15,7 @@ from tkinter import ttk
 import Utils
 import logging
 
-def connect(self, TNotebook1, config_interface, config_file):
+def connect(self, TNotebook1, config_interface):
 
     ##################################
     # 	          TAB 1	        	 #

@@ -36,7 +36,7 @@ def set_SPA_for_measure(ms2830a, config_file, manual_command):
         # BW
         ms2830a.do_set_resolutionBW(config_file["resolution_bandwith"]) # 1Mhz
         log_list.append("Resolution Bandwith: " + str(ms2830a.do_get_resolutionBW()))
-        ms2830a.do_set_videoBW(100)
+        ms2830a.do_set_videoBW(config_file["video_bandwith"])
         log_list.append("Video bandwith:" + str(ms2830a.do_get_videoBW()))
         
         # AMPLITUDE
