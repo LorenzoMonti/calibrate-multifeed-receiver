@@ -143,6 +143,7 @@ class Anritsu_MS2830A():
         """
         self._visainstrument.write('CNF %f' % (centerfreq))
 
+
     def do_get_centerfreq(self):
         """
         gets the center frequency
@@ -167,6 +168,7 @@ class Anritsu_MS2830A():
         sets the start frequency
         
         """
+
         self._visainstrument.write('STF %f'%(freq))
 
     def do_get_startfreq(self):
