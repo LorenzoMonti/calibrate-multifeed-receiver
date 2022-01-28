@@ -1,6 +1,6 @@
 {
-    "start_freq": 1000000000,
-    "stop_freq": 2000000000,
+    "start_freq": 1000000000.0,
+    "stop_freq": 2000000000.0,
     "sweep_trace_points": 5001,
     "resolution_bandwith": 10000000,
     "video_bandwith": 10,
