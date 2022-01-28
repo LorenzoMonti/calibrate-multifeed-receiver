@@ -52,7 +52,7 @@ def connect(self, TNotebook1, config_interface):
 
     self.config_frame = ttk.LabelFrame(self.TNotebook1_t1, text="Configure interface", padding=(20, 10))
     self.config_frame.grid(
-        row=1, column=0, padx=(20, 10), pady=(20, 10), sticky="nsew"
+        row=0, column=1, padx=(20, 10), pady=(20, 10), sticky="new"
     )
 
     self.Label1Connect = ttk.Label(self.config_frame)
@@ -79,10 +79,12 @@ def connect(self, TNotebook1, config_interface):
     self.Entry3Connect.grid(row=5, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
     self.Entry3Connect.insert(0, config_interface["local_eth"])
     
-    # Separator
-    self.separator = ttk.Separator(self.config_frame)
-    self.separator.grid(row=6, column=0, padx=(20, 10), pady=10, sticky="ew")
-    
+    # frame for the button
+    self.button_conn_frame = ttk.LabelFrame(self.TNotebook1_t1, text="Actions", padding=(20, 10))
+    self.button_conn_frame.grid(
+        row=0, column=1, padx=(20, 10), pady=(150, 10), sticky="ew"
+    )
+
     def write_config():
         config_interface = {
             "" : str(""),
@@ -100,7 +102,7 @@ def connect(self, TNotebook1, config_interface):
             logging.error(__name__ + ' : Error writing configuration file')
 
 
-    self.ButtonConnect = ttk.Button(self.config_frame)
+    self.ButtonConnect = ttk.Button(self.button_conn_frame)
     self.ButtonConnect.grid(row=7, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
     self.ButtonConnect.configure(command=write_config)
     self.ButtonConnect.configure(text='''Write configuration''')

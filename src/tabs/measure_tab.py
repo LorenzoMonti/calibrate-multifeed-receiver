@@ -18,6 +18,7 @@ from tkinter.font import NORMAL
 import Utils
 import csv
 import time
+from threading import *
 import numpy as np
 import beepy as bp
 
@@ -68,63 +69,98 @@ def measure(self, TNotebook1):
     self.Message5.grid(row=5, column=0, padx=(150, 150), pady=(50, 50), sticky="ew")
     self.Message5.configure(text='''Pc''', width=171)
 
-    # function for event take_trace
-    def take_trace(event):
-        if event.char == ' ':
-            if(len(self._traces) < num_measures):
-                
-                Utils.clear_message(self, len(self._traces)) # only for UI
-                try:
-                    self.TextMeasure1.insert(tk.END, "\nTaking trace...")
-                    self._traces.append(self.instr.get_trace(1)) # Get trace
-                    self.TextMeasure1.insert(tk.END, "\nData taken\n")
-                    bp.beep(sound=1)
-                except:
-                    self.TextMeasure1.insert(tk.END, "\nConnection problem\n")                
-            else:
-                self.ButtonMeasure2.config(state=NORMAL)
-                self.TextMeasure1.insert(tk.END, "\nAll measurements were successful\n")
-                self.Message5.configure(background="#d9d9d9", font=("Helvetica",10))
-
-    # frame for the buttons measure
-    self.button_mea_frame = ttk.LabelFrame(self.TNotebook1_t3, text="Settings", padding=(20, 10))
-    self.button_mea_frame.grid(
-        row=0, column=1, padx=(20, 10), pady=(20, 10), sticky="nsew"
+    # frame for the setting measure
+    self.setting_mea_frame = ttk.LabelFrame(self.TNotebook1_t3, text="Settings", padding=(20, 10))
+    self.setting_mea_frame.grid(
+        row=0, column=1, padx=(20, 10), pady=(20, 10), sticky="new"
     )
     
     #label
-    self.Label1 = ttk.Label(self.button_mea_frame)
+    self.Label1 = ttk.Label(self.setting_mea_frame)
     self.Label1.grid(row=1, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
     self.Label1.configure(text='''Channel''')
 
-    self.Label2 = ttk.Label(self.button_mea_frame)
+    self.Label2 = ttk.Label(self.setting_mea_frame)
     self.Label2.grid(row=2, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
     self.Label2.configure(text='''Polarization''')
 
-    self.Label3 = ttk.Label(self.button_mea_frame)
+    self.Label3 = ttk.Label(self.setting_mea_frame)
     self.Label3.grid(row=3, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
     self.Label3.configure(text='''Tc''')
     
-    self.Label4 = ttk.Label(self.button_mea_frame)
+    self.Label4 = ttk.Label(self.setting_mea_frame)
     self.Label4.grid(row=4, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
     self.Label4.configure(text='''Th''')
 
     # entry
-    self.MeasureEntry1 = ttk.Entry(self.button_mea_frame)
+    self.MeasureEntry1 = ttk.Entry(self.setting_mea_frame)
     self.MeasureEntry1.grid(row=1, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
 
-    self.MeasureEntry2 = ttk.Entry(self.button_mea_frame)
+    self.MeasureEntry2 = ttk.Entry(self.setting_mea_frame)
     self.MeasureEntry2.grid(row=2, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
 
-    self.MeasureEntry3 = ttk.Entry(self.button_mea_frame)
+    self.MeasureEntry3 = ttk.Entry(self.setting_mea_frame)
     self.MeasureEntry3.grid(row=3, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
 
-    self.MeasureEntry4 = ttk.Entry(self.button_mea_frame)
+    self.MeasureEntry4 = ttk.Entry(self.setting_mea_frame)
     self.MeasureEntry4.grid(row=4, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
+    
+    # frame for the bound measure
+    self.bound_mea_frame = ttk.LabelFrame(self.TNotebook1_t3, text="Bounds", padding=(20, 10))
+    self.bound_mea_frame.grid(
+        row=0, column=1, padx=(20, 10), pady=(50, 10), sticky="ew"
+    )
+    #label
+    self.LabelBound1 = ttk.Label(self.bound_mea_frame)
+    self.LabelBound1.grid(row=1, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
+    self.LabelBound1.configure(text='''Lower bound''')
 
-    # separator
-    self.separatorMeasure = ttk.Separator(self.button_mea_frame)
-    self.separatorMeasure.grid(row=5, column=0, padx=(20, 10), pady=50, sticky="ew")
+    self.Label2 = ttk.Label(self.bound_mea_frame)
+    self.Label2.grid(row=2, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
+    self.Label2.configure(text='''Upper bound''')
+
+    # entry
+    self.MeasureEntry1 = ttk.Entry(self.bound_mea_frame)
+    self.MeasureEntry1.grid(row=1, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
+
+    self.MeasureEntry2 = ttk.Entry(self.bound_mea_frame)
+    self.MeasureEntry2.grid(row=2, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
+
+    # frame for the buttons measure
+    self.button_mea_frame = ttk.LabelFrame(self.TNotebook1_t3, text="Actions", padding=(20, 10))
+    self.button_mea_frame.grid(
+        row=0, column=1, padx=(20, 10), pady=(500, 10), sticky="ew"
+    )
+    
+    # function for button take_trace
+    def take_trace():
+        # disable button frame during get_threading_trace
+        #for child in self.button_mea_frame.winfo_children():
+        #    child.configure(state='disable')
+        trace_handler()
+        
+        
+    def trace_handler():
+        if(len(self._traces) < num_measures):
+            try:
+                self.TextMeasure1.insert(tk.END, "\nTaking trace...")
+                thread_trace=Thread(target=get_threading_trace, args=(1, 25))
+                thread_trace.start()   
+            except:
+                self.TextMeasure1.insert(tk.END, "\nConnection problem\n")    
+        else:
+            self.ButtonMeasure2.config(state=NORMAL)
+            self.TextMeasure1.insert(tk.END, "\nAll measurements were successful\n")
+            self.Message5.configure(background="#d9d9d9", font=("Helvetica",10))
+
+    def get_threading_trace(trace_SA, sleeping_SA):
+        trace_thr = self.instr.get_trace(trace_SA, sleeping_SA)
+        Utils.clear_message(self, len(self._traces)) # only for UI            
+        self._traces.append(trace_thr)
+        self.TextMeasure1.insert(tk.END, "\nData taken\n")
+        #for child in self.button_mea_frame.winfo_children():
+        #    child.configure(state='enable')
+        bp.beep(sound=1)
 
     # buttons
     self.ButtonMeasure = ttk.Button(self.button_mea_frame)
@@ -148,9 +184,9 @@ def measure(self, TNotebook1):
             watt_traces.append(np.array(list(Utils.getWatts(trace))))
 
         # get calculus
-        dMeasure, drMeasure, Pc, PcPlusM, HpPlusM, Ph, Yvalue = Utils.getCalculus(watt_traces)
+        dMeasure, drMeasure, Pc, PcPlusM, PhPlusM, Ph, Yvalue = Utils.getCalculus(watt_traces)
         # traspose rows in columns
-        columns_trace = zip(self._traces[0], self._traces[1], self._traces[2], self._traces[3], self._traces[4], dMeasure, drMeasure, Pc, PcPlusM, HpPlusM, Ph, Yvalue) 
+        columns_trace = zip(self._traces[0], self._traces[1], self._traces[2], self._traces[3], self._traces[4], dMeasure, drMeasure, Pc, PcPlusM, PhPlusM, Ph, Yvalue) 
 
         # open file dialog
         file = filedialog.asksaveasfile(mode="w", defaultextension=".csv")
@@ -160,7 +196,7 @@ def measure(self, TNotebook1):
         # write CSV
         writer = csv.writer(file)        
         # titles
-        writer.writerow(["RAW:Pc", "RAW:Pc + m", "RAW:Ph", "RAW:Ph + m", "RAW:Pc'", "dMeasure", "drMeasure", "Pc", "PcPlusM", "HpPlusM", "Ph", "Yvalue"]) 
+        writer.writerow(["RAW:Pc", "RAW:Pc + m", "RAW:Ph + m", "RAW:Ph", "RAW:Pc'", "dMeasure", "drMeasure", "Pc", "PcPlusM", "PhPlusM", "Ph", "Yvalue"]) 
         # traces and calculus
         for column_trace in columns_trace:
             writer.writerow(column_trace) 
@@ -187,6 +223,9 @@ def measure(self, TNotebook1):
     self.TextMeasure1.configure(yscrollcommand=self.scrollLog3.set)
     self.TextMeasure1.pack(expand=True, fill="both")
 
-
+    # function for event take_trace
+    def take_trace(event):
+        if event.char == ' ':
+            trace_handler()    
     # EVENTS
     self.TNotebook1_t3.bind_all("<space>", take_trace)

@@ -294,12 +294,12 @@ class Anritsu_MS2830A():
     #               TRACE                #
     ######################################
             
-    def get_trace(self, tracenumber=1):
+    def get_trace(self, tracenumber=1, sleeping_time=25):
         """
         gets trace data
         """
         # in ASCII form (slow, but human readable) and binary (fast, but more difficult to debug)
-        sleep(25)
+        sleep(sleeping_time)
         trace = self._visainstrument.query_ascii_values("TRAC? TRAC%i" %(tracenumber) , container = np.array) # Trace A (default)
 
         return trace
