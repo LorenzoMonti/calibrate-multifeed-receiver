@@ -150,6 +150,8 @@ def configuration(self, TNotebook1, config_interface, config_file):
 
     def set_conf():
         try:
+            config_file = Utils.read_config_file("../config/config_MS2830A.json")
+            config_interface = Utils.read_config_file("../config/config_interface.json")
             self.instr = SPA.Anritsu_MS2830A("Anritsu_MS2830A",config_interface[self.selected_interface.get()])
             log_list = Utils.set_SPA_for_measure(self.instr, config_file, self.Entry10.get())
             self.Text1.insert(tk.END, "\nConfiguration\n")
