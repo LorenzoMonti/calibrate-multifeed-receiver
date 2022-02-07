@@ -15,9 +15,11 @@ print("Who am i? " + inst.query("*IDN?"))
 
 inst.write("*RST") # Preset
 print("Self Test: " + inst.query("*TST?"))
+print("SW: " + inst.query("swe:time?"))
+#inst.write("INST SPECT") # set Spectrum Analyzer
 
-inst.write("INST SPECT") # set Spectrum Analyzer
 
+"""
 ######################################
 #           FREQUENCY                #
 ######################################
@@ -72,3 +74,4 @@ print(track)
 #inst.write("*WAI")
 #print("Measurement status query: " + inst.query("MSTAT?"))
 
+"""

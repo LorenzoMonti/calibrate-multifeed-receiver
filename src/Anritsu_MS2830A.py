@@ -96,9 +96,9 @@ class Anritsu_MS2830A():
     #           TIME SWEEP               #
     ######################################
 
-    def do_get_sweeptime(self):
+    def get_sweeptime(self):
         """
-        gets the center frequency
+        query the sweep time
         """
         return float(self._visainstrument.query('swe:time?'))
 
@@ -294,12 +294,12 @@ class Anritsu_MS2830A():
     #               TRACE                #
     ######################################
             
-    def get_trace(self, tracenumber=1, sleeping_time=25):
+    def get_trace(self, tracenumber=1):
         """
         gets trace data
         """
         # in ASCII form (slow, but human readable) and binary (fast, but more difficult to debug)
-        sleep(sleeping_time)
+        sleep(self.get_sweeptime() + 1)
         trace = self._visainstrument.query_ascii_values("TRAC? TRAC%i" %(tracenumber) , container = np.array) # Trace A (default)
 
         return trace
