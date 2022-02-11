@@ -1,9 +1,9 @@
 {
-    "start_freq": 1000000000.0,
-    "stop_freq": 2000000000.0,
+    "start_freq": 1500000000.0,
+    "stop_freq": 1800000000.0,
     "sweep_trace_points": 5001,
-    "resolution_bandwith": 10000000,
-    "video_bandwith": 10,
+    "resolution_bandwith": 10000000.0,
+    "video_bandwith": 10.0,
     "amplitude_log_scale": 1,
     "reference_level": -54,
     "zoom_spot_marker": [

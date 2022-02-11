@@ -12,12 +12,13 @@ except ImportError:
     
 from tkinter import ttk
 from tkinter import filedialog
+from tkinter import messagebox
 from tkinter.constants import ACTIVE, DISABLED
 from tkinter.font import NORMAL
 
 import Utils
 import csv
-import time
+import datetime
 from threading import *
 import numpy as np
 import beepy as bp
@@ -59,11 +60,11 @@ def measure(self, TNotebook1):
 
     self.Message3 = tk.Message(self.measure_frame)
     self.Message3.grid(row=3, column=0, padx=(150, 150), pady=(50, 50), sticky="ew")
-    self.Message3.configure(text='''Ph''', width=171)
+    self.Message3.configure(text='''Ph + m''', width=171)
 
     self.Message4 = tk.Message(self.measure_frame)
     self.Message4.grid(row=4, column=0, padx=(150, 150), pady=(50, 50), sticky="ew")
-    self.Message4.configure(text='''Ph + m''', width=171)
+    self.Message4.configure(text='''Ph''', width=171)
 
     self.Message5 = tk.Message(self.measure_frame)
     self.Message5.grid(row=5, column=0, padx=(150, 150), pady=(50, 50), sticky="ew")
@@ -120,11 +121,11 @@ def measure(self, TNotebook1):
     self.Label2.configure(text='''Upper bound''')
 
     # entry
-    self.MeasureEntry1 = ttk.Entry(self.bound_mea_frame)
-    self.MeasureEntry1.grid(row=1, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
+    self.BoundEntry1 = ttk.Entry(self.bound_mea_frame)
+    self.BoundEntry1.grid(row=1, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
 
-    self.MeasureEntry2 = ttk.Entry(self.bound_mea_frame)
-    self.MeasureEntry2.grid(row=2, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
+    self.BoundEntry2 = ttk.Entry(self.bound_mea_frame)
+    self.BoundEntry2.grid(row=2, column=1, padx=(20, 10), pady=(20, 0), sticky="ew")
 
     # frame for the buttons measure
     self.button_mea_frame = ttk.LabelFrame(self.TNotebook1_t3, text="Actions", padding=(20, 10))
@@ -144,19 +145,22 @@ def measure(self, TNotebook1):
         if(len(self._traces) < num_measures):
             try:
                 self.TextMeasure1.insert(tk.END, "\nTaking trace...")
-                thread_trace=Thread(target=get_threading_trace, args=(1, 25))
+                thread_trace=Thread(target=get_threading_trace, args=(1,))
                 thread_trace.start()   
             except:
                 self.TextMeasure1.insert(tk.END, "\nConnection problem\n")    
         else:
+            
+            # TODO: add plot here!!!!
+
             self.ButtonMeasure2.config(state=NORMAL)
             self.TextMeasure1.insert(tk.END, "\nAll measurements were successful\n")
             self.Message5.configure(background="#d9d9d9", font=("Helvetica",10))
 
-    def get_threading_trace(trace_SA, sleeping_SA):
-        trace_thr = self.instr.get_trace(trace_SA, sleeping_SA)
+    def get_threading_trace(trace_SA):
+        trace_thread = self.instr.get_trace(trace_SA)
         Utils.clear_message(self, len(self._traces)) # only for UI            
-        self._traces.append(trace_thr)
+        self._traces.append(trace_thread)
         self.TextMeasure1.insert(tk.END, "\nData taken\n")
         #for child in self.button_mea_frame.winfo_children():
         #    child.configure(state='enable')
@@ -169,6 +173,7 @@ def measure(self, TNotebook1):
     
     def clear_measures():
         self._traces.clear()
+        self.ButtonMeasure2.config(state=DISABLED)
         self.TextMeasure1.insert(tk.END, "\nMeasures cleared\n")
         Utils.clear_background(self)
 
@@ -184,26 +189,34 @@ def measure(self, TNotebook1):
             watt_traces.append(np.array(list(Utils.getWatts(trace))))
 
         # get calculus
-        dMeasure, drMeasure, Pc, PcPlusM, PhPlusM, Ph, Yvalue = Utils.getCalculus(watt_traces)
+        dMeasure, drMeasure, Pc, PcPlusM, PhPlusM, Ph, Yvalue, Trx, Tm, Thm = Utils.getCalculus(watt_traces, float(self.MeasureEntry3.get()), float(self.MeasureEntry4.get()))
         # traspose rows in columns
-        columns_trace = zip(self._traces[0], self._traces[1], self._traces[2], self._traces[3], self._traces[4], dMeasure, drMeasure, Pc, PcPlusM, PhPlusM, Ph, Yvalue) 
+        columns_trace = zip(self._traces[0], self._traces[1], self._traces[2], 
+                            self._traces[3], self._traces[4], dMeasure, drMeasure, 
+                            Pc, PcPlusM, PhPlusM, Ph, Yvalue, Trx, Tm, Thm) 
 
-        # open file dialog
-        file = filedialog.asksaveasfile(mode="w", defaultextension=".csv")
-        if file is None:
-            return
+        # acceptable drift
+        if(Utils.acceptable_drift(drMeasure, Tm, Thm, float(self.BoundEntry1.get()), float(self.BoundEntry2.get()))):    
+            # open file dialog
+            file = filedialog.asksaveasfile(mode="w", defaultextension=".csv")
+            if file is None:
+                return
 
-        # write CSV
-        writer = csv.writer(file)        
-        # titles
-        writer.writerow(["RAW:Pc", "RAW:Pc + m", "RAW:Ph + m", "RAW:Ph", "RAW:Pc'", "dMeasure", "drMeasure", "Pc", "PcPlusM", "PhPlusM", "Ph", "Yvalue"]) 
-        # traces and calculus
-        for column_trace in columns_trace:
-            writer.writerow(column_trace) 
-        file.close()
-        
-        # write in log output
-        self.TextMeasure1.insert(tk.END, "\nFile written succesfully\n")
+            # write CSV
+            writer = csv.writer(file)        
+            # Channel and Polarization
+            writer.writerow(["Date/hour: " + str(datetime.datetime.now()),"Channel: " + str(self.MeasureEntry1.get()), "Polarization: " + str(self.MeasureEntry2.get())])
+            # titles
+            writer.writerow(["RAW:Pc", "RAW:Pc + m", "RAW:Ph + m", "RAW:Ph", "RAW:Pc'", "dMeasure", "drMeasure", "Pc", "PcPlusM", "PhPlusM", "Ph", "Yvalue", "Trx", "Tm", "Thm"])  
+            # traces and calculus
+            for column_trace in columns_trace:
+                writer.writerow(column_trace) 
+            file.close()
+            
+            # write in log output
+            self.TextMeasure1.insert(tk.END, "\nFile written succesfully\n")
+        else:
+            messagebox.showwarning("Warning","Based on bounds setted, drift has been detected")
 
     self.ButtonMeasure2 = ttk.Button(self.button_mea_frame)
     self.ButtonMeasure2.grid(row=8, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")

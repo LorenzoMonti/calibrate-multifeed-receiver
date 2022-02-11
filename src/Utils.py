@@ -1,3 +1,5 @@
+from cmath import inf
+from pickle import TRUE
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5,7 +7,7 @@ import pandas as pd
 import datetime
 import json
 from math import log10
-
+import sys
 
 """
 Python module that contains utily functions for the Anritsu MS2830A Signal Source Analyzer and measurements
@@ -119,23 +121,54 @@ def getWatts(dBm):
     """
     return map(dBm2W, dBm)
 
-def getCalculus(traces):
+def getCalculus(traces, Tc = 77, Th = 297):
     """
     Function that returns useful calculus from trace data
     
     """
+    Tc = np.full(len(traces[0]), Tc)
+    Th = np.full(len(traces[0]), Th)
+    ones = np.ones(len(traces[0]))
+
     dMeasure = traces[4] - traces[0]
     drMeasure = traces[4] / traces[0]
-
+    
     Pc = traces[0] + (0 * (dMeasure / 4))
     PcPlusM = traces[1] + (1 * (dMeasure / 4))
     PhPlusM = traces[2] + (2 * (dMeasure / 4))
     Ph = traces[3] + (3 * (dMeasure / 4))
     Yvalue = Ph / Pc
-    #Trx = (Th - (Yvalue * Tc)) / (Yvalue - 1)
-    #Tm = ((Th - Tc) / (Ph - Pc)) * (PcPlusM - Pc)
-    #Thm = ((Th - Tc) / (Ph - Pc)) * (PhPlusM - Ph)
-    return dMeasure, drMeasure, Pc, PcPlusM, PhPlusM, Ph, Yvalue #,Trx, Tm, Thm
+    Yvalue[Yvalue == 1.] = 1.00001 # if Yvalue = 1. then set 1.00001
+    
+    Trx = (Th - (Yvalue * Tc)) / (Yvalue - ones)
+    Tm = ((Th - Tc) / (Ph - Pc)) * (PcPlusM - Pc)
+    Thm = ((Th - Tc) / (Ph - Pc)) * (PhPlusM - Ph)
+    
+    return dMeasure, drMeasure, Pc, PcPlusM, PhPlusM, Ph, Yvalue, Trx, Tm, Thm
+
+def acceptable_drift(drMeasure, Tm, Thm, lowerBound, upperBound):
+    """
+    Function that return true if drift is acceptable (based on lowerBound and upperBound), false otherwise
+    """
+    mrMeasure = Tm/Thm
+    mrMeasure = preprocess_mr(mrMeasure)
+    drMean = np.mean(drMeasure)
+    drSTD = np.std(drMeasure)
+    mrMean = np.mean(mrMeasure)
+    mrSTD = np.std(mrMeasure)
+    print("drMean: " + str(drMean) + " drSTD: " + str(drSTD) + " mrMean: " + str(mrMean) + " mrSTD: " + str(mrSTD))
+    if((lowerBound < drMean < upperBound) and (lowerBound < mrMean < upperBound)):
+            return True
+    else:
+            return False
+
+def preprocess_mr(mrMeasure):
+    
+    mrMeasure = mrMeasure[~np.isposinf(mrMeasure)] # remove inf values using numpy.isposinf() and numpy.logical_not
+    mrMeasure = mrMeasure[~np.isneginf(mrMeasure)]  # remove -inf values using numpy.isneginf() and numpy.logical_not
+    mrMeasure = mrMeasure[~np.isnan(mrMeasure)] # remove nan values using numpy.isnan() and numpy.logical_not
+    
+    return mrMeasure
 
 ############################
 #           UI             #
