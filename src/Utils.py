@@ -68,6 +68,21 @@ def plot_lineplot(trace):
         sns.lineplot(x="points", y="dbM", data=dataset)
         plt.show()
 
+def plot_Trx_Tm(trace1, trace2):
+        x = np.arange(len(trace1)) # x axis
+        dataset = pd.DataFrame({ "Trx": trace1, "Tm": trace2})
+
+        sns.set_style("darkgrid")
+        sns.lineplot(data=dataset)
+        plt.show()
+
+def plot_Dr_Mr(trace1, trace2, upperBound, lowerBound):
+        x = np.arange(len(trace1)) # x axis
+        dataset = pd.DataFrame({ "Dr": trace1, "Mr": trace2, "Upperbound": upperBound, "Lowerbound": lowerBound})
+
+        sns.set_style("darkgrid")
+        sns.lineplot(data=dataset)
+        plt.show()
 
 def save_data_as_csv(trace):
         """
@@ -165,7 +180,7 @@ def acceptable_drift(drMeasure, Tm, Thm, lowerBound, upperBound):
 def preprocess_mr(mrMeasure):
     
     mrMeasure = mrMeasure[~np.isposinf(mrMeasure)] # remove inf values using numpy.isposinf() and numpy.logical_not
-    mrMeasure = mrMeasure[~np.isneginf(mrMeasure)]  # remove -inf values using numpy.isneginf() and numpy.logical_not
+    mrMeasure = mrMeasure[~np.isneginf(mrMeasure)] # remove -inf values using numpy.isneginf() and numpy.logical_not
     mrMeasure = mrMeasure[~np.isnan(mrMeasure)] # remove nan values using numpy.isnan() and numpy.logical_not
     
     return mrMeasure
