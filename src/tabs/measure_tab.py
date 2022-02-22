@@ -155,17 +155,17 @@ def measure(self, TNotebook1):
             watt_traces = list()
             for trace in self._traces:
                 watt_traces.append(np.array(list(Utils.getWatts(trace))))
-
+            # get frequency
+            self.frequency = Utils.calcFrequency() 
             # get calculus
             self.dMeasure, self.drMeasure, self.Pc, self.PcPlusM, self.PhPlusM, self.Ph, self.Yvalue, self.Trx, self.Tm, self.Thm = Utils.getCalculus(watt_traces, float(self.MeasureEntry3.get()), float(self.MeasureEntry4.get()))
             # traspose rows in columns
-            self.columns_trace = zip(self._traces[0], self._traces[1], self._traces[2], 
+            self.columns_trace = zip(self.frequency, self._traces[0], self._traces[1], self._traces[2], 
                                 self._traces[3], self._traces[4], self.dMeasure, self.drMeasure, 
                                 self.Pc, self.PcPlusM, self.PhPlusM, self.Ph, self.Yvalue, self.Trx, self.Tm, self.Thm) 
 
-            Utils.plot_Trx_Tm(self.Trx, self.Tm)
-            Utils.plot_Dr_Mr(self.drMeasure, (self.Tm/self.Thm), float(self.BoundEntry1.get()), float(self.BoundEntry2.get()))
-            
+
+            Utils.plot_results(self.Trx, self.Tm, self.drMeasure, (self.Tm/self.Thm), float(self.BoundEntry1.get()), float(self.BoundEntry2.get()))
             self.ButtonMeasure2.config(state=NORMAL)
             self.TextMeasure1.insert(tk.END, "\nAll measurements were successful\n")
             self.Message5.configure(background="#d9d9d9", font=("Helvetica",10))
@@ -208,7 +208,7 @@ def measure(self, TNotebook1):
             # Channel and Polarization
             writer.writerow(["Date/hour: " + str(datetime.datetime.now()),"Channel: " + str(self.MeasureEntry1.get()), "Polarization: " + str(self.MeasureEntry2.get())])
             # titles
-            writer.writerow(["RAW:Pc", "RAW:Pc + m", "RAW:Ph + m", "RAW:Ph", "RAW:Pc'", "dMeasure", "drMeasure", "Pc", "PcPlusM", "PhPlusM", "Ph", "Yvalue", "Trx", "Tm", "Thm"])  
+            writer.writerow(["Frequency","RAW:Pc", "RAW:Pc + m", "RAW:Ph + m", "RAW:Ph", "RAW:Pc'", "dMeasure", "drMeasure", "Pc", "PcPlusM", "PhPlusM", "Ph", "Yvalue", "Trx", "Tm", "Thm"])  
             # traces and calculus
             for column_trace in self.columns_trace:
                 writer.writerow(column_trace) 

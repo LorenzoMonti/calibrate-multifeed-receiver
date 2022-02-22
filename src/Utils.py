@@ -56,33 +56,42 @@ def set_SPA_for_measure(ms2830a, config_file, manual_command):
         
         return log_list
 
+#########################
+#         PLOT          #
+#########################
+
 def plot_lineplot(trace):
         """
-        Plot trace retrieved from Anritsu MS2830A Signal Source Analyzer
+        Utily function to plot trace retrieved from Anritsu MS2830A Signal Source Analyzer
         
         """
-        x = np.arange(len(trace)) # x axis
+        x = calcFrequency() # x axis
         dataset = pd.DataFrame({"points": x , "dbM": trace})
 
         sns.set_style("darkgrid")
         sns.lineplot(x="points", y="dbM", data=dataset)
         plt.show()
 
-def plot_Trx_Tm(trace1, trace2):
-        x = np.arange(len(trace1)) # x axis
-        dataset = pd.DataFrame({ "Trx": trace1, "Tm": trace2})
+def plot_results(trx, tm, dr, mr, upperBound, lowerBound):
+        """
+        Utily function to plot calculated data (trx, tm, dr, mr and bounds)
+        
+        """
+        dataset1 = pd.DataFrame({ "Trx": trx, "Tm": tm})
+        dataset2 = pd.DataFrame({ "Dr": dr, "Mr": mr, "Upperbound": upperBound, "Lowerbound": lowerBound})
 
+        fig, axs = plt.subplots(ncols=2, figsize=(18, 10))
+        fig.suptitle('Measure results')
+        axs[0].set_title('Trx and Tm')
+        axs[1].set_title('Dr and Mr')
         sns.set_style("darkgrid")
-        sns.lineplot(data=dataset)
+        sns.lineplot(ax=axs[0], data=dataset1)
+        sns.lineplot(ax=axs[1], data=dataset2)
         plt.show()
 
-def plot_Dr_Mr(trace1, trace2, upperBound, lowerBound):
-        x = np.arange(len(trace1)) # x axis
-        dataset = pd.DataFrame({ "Dr": trace1, "Mr": trace2, "Upperbound": upperBound, "Lowerbound": lowerBound})
-
-        sns.set_style("darkgrid")
-        sns.lineplot(data=dataset)
-        plt.show()
+#########################
+#     FILE MANAGER      #
+#########################
 
 def save_data_as_csv(trace):
         """
@@ -135,6 +144,18 @@ def getWatts(dBm):
     
     """
     return map(dBm2W, dBm)
+
+def calcFrequency():
+    """
+    Function used to calculate the x-axis of the trace (frequencies)
+    
+    """
+    config_file = read_config_file("../config/config_MS2830A.json")
+    
+    tmp_freq = ((config_file["stop_freq"] - config_file["start_freq"]) / (config_file["sweep_trace_points"] - 1))
+    frequency = [(config_file["start_freq"] + (tmp_freq * i)) for i in range(0, config_file["sweep_trace_points"]) ]
+    
+    return frequency
 
 def getCalculus(traces, Tc = 77, Th = 297):
     """
