@@ -16,7 +16,7 @@ from tkinter import messagebox
 from tkinter.constants import ACTIVE, DISABLED
 from tkinter.font import NORMAL
 
-import Utils
+from src import Utils
 import csv
 import datetime
 from threading import *

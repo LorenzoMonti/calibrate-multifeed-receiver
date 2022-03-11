@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+include requirements.txt
+recursive-include config/ *
+include azure.tcl
+recursive-include src/ *.py
+recursive-include theme/ *

@@ -13,9 +13,9 @@ from matplotlib.pyplot import text
 import ctypes
 
 from numpy.lib.function_base import insert, select
-import Anritsu_MS2830A as SPA
-import Utils
-from tabs import measure_tab, configuration_tab, connect_tab
+from src import Anritsu_MS2830A as SPA
+from src import Utils
+from src.tabs import measure_tab, configuration_tab, connect_tab
 
 try:
     import Tkinter as tk
@@ -29,14 +29,14 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-import gui_support
+from src import gui_support
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w, root
     root = tk.Tk()
     # Simply set the theme
-    root.tk.call("source", "azure.tcl")
+    root.tk.call("source", "src/azure.tcl")
     root.tk.call("set_theme", "light")
 
     top = UserInterface (root)
@@ -76,8 +76,8 @@ class UserInterface:
         #############################
         # ANRITSU CONFIGURATION
         #############################
-        config_interface = Utils.read_config_file("../config/config_interface.json")
-        config_file = Utils.read_config_file("../config/config_MS2830A.json")
+        config_interface = Utils.read_config_file("./config/config_interface.json")
+        config_file = Utils.read_config_file("./config/config_MS2830A.json")
         ##############################
         
         #############################
