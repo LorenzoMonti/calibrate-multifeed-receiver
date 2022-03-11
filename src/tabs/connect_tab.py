@@ -12,7 +12,7 @@ except ImportError:
 
 from tkinter import ttk
 
-import Utils
+from src import Utils
 import logging
 
 def connect(self, TNotebook1, config_interface):
@@ -93,7 +93,7 @@ def connect(self, TNotebook1, config_interface):
             "local_eth": str(self.Entry3Connect.get())
         }
         try:
-            Utils.write_config_file("../config/config_interface.json", config_interface)
+            Utils.write_config_file("./config/config_interface.json", config_interface)
             self.EntryLog.insert(tk.END, "\nConfiguration file written successfully \n")
             logging.info(__name__ + ' : Configuration file written successfully')
 

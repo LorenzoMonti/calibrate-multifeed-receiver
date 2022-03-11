@@ -1,11 +1,11 @@
-import Anritsu_MS2830A as SPA
-import Utils
+from src import Anritsu_MS2830A as SPA
+from src import Utils
 import numpy as np
 import datetime
 if __name__ == '__main__':
     
-    config_interface = Utils.read_config_file("../config/config_interface.json")
-    config_file = Utils.read_config_file("../config/config_MS2830A.json")
+    config_interface = Utils.read_config_file("./config/config_interface.json")
+    config_file = Utils.read_config_file("./config/config_MS2830A.json")
     
     #instr = SPA.Anritsu_MS2830A("Anritsu_MS2830A", config_interface["remote_eth"])
     #Utils.set_SPA_for_measure(instr, config_file)

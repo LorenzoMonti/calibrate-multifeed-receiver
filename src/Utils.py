@@ -150,7 +150,7 @@ def calcFrequency():
     Function used to calculate the x-axis of the trace (frequencies)
     
     """
-    config_file = read_config_file("../config/config_MS2830A.json")
+    config_file = read_config_file("./config/config_MS2830A.json")
     
     tmp_freq = ((config_file["stop_freq"] - config_file["start_freq"]) / (config_file["sweep_trace_points"] - 1))
     frequency = [(config_file["start_freq"] + (tmp_freq * i)) for i in range(0, config_file["sweep_trace_points"]) ]
