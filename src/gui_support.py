@@ -32,7 +32,7 @@ def destroy_window():
     top_level = None
 
 if __name__ == '__main__':
-    import calibrate_multifeed_receiver as gui
+    import gui
     gui.vp_start_gui()
 
 

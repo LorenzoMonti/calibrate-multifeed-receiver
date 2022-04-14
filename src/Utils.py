@@ -7,13 +7,18 @@ import pandas as pd
 import datetime
 import json
 from math import log10
-import sys
+import sys, os
+from pathlib import Path
+import wget, requests
+import shutil
 
 """
 Python module that contains utily functions for the Anritsu MS2830A Signal Source Analyzer and measurements
     
 """
-  
+
+HOME_DIRECTORY = str(Path.home()) + "/.calibrate_receiver/"
+
 def set_SPA_for_measure(ms2830a, config_file, manual_command):
         """
         This method allows to set the Anritsu MS2830A for the measurements
@@ -99,7 +104,7 @@ def save_data_as_csv(trace):
         
         """
         dataset = pd.DataFrame(trace)
-        dataset.to_csv("../data/measure-" + str(datetime.datetime.now()) + ".csv")
+        dataset.to_csv("measure-" + str(datetime.datetime.now()) + ".csv")
 
 def read_config_file(filename):
         """
@@ -120,6 +125,40 @@ def write_config_file(filename, confDict):
         with open(filename, 'w') as file:
                 file.write(json_obj)
 
+def create_home_directory():
+        """
+        Utily function used to create an external folder to setup configuration files 
+        """
+        if not os.path.exists(HOME_DIRECTORY):
+                os.makedirs(HOME_DIRECTORY)
+                download_config_files()        
+
+def download_config_files():
+        wget.download('https://raw.githubusercontent.com/LorenzoMonti/calibrate-multifeed-receiver/main/config/config_interface.json', HOME_DIRECTORY)
+        wget.download('https://raw.githubusercontent.com/LorenzoMonti/calibrate-multifeed-receiver/main/config/config_MS2830A.json', HOME_DIRECTORY)
+        """
+        wget.download('https://raw.githubusercontent.com/LorenzoMonti/calibrate-multifeed-receiver/main/src/azure.tcl', HOME_DIRECTORY)
+        wget.download('https://raw.githubusercontent.com/LorenzoMonti/calibrate-multifeed-receiver/main/theme/light.tcl', HOME_DIRECTORY)
+        wget.download('https://raw.githubusercontent.com/LorenzoMonti/calibrate-multifeed-receiver/main/theme/dark.tcl', HOME_DIRECTORY)
+
+        os.makedirs(HOME_DIRECTORY + 'light')
+        png_list = [ 
+                        "box-accent.png", "box-basic.png", "box-hover.png", "box-invalid.png","button-hover.png","card.png",
+                        "check-accent.png","check-basic.png","check-hover.png","check-tri-accent.png","check-tri-basic.png",
+                        "check-tri-hover.png","circle-accent.png","circle-basic.png","circle-hover.png","combo-button-basic.png",
+                        "combo-button-focus.png","combo-button-hover.png","down-accent.png","down.png","empty.png","hor-accent.png",
+                        "hor-basic.png","hor-hover.png","notebook.png","off-basic.png","off-hover.png","on-accent.png","on-basic.png",
+                        "on-hover.png","outline-basic.png","outline-hover.png","radio-accent.png","radio-basic.png","radio-hover.png",
+                        "radio-tri-accent.png","radio-tri-basic.png","radio-tri-hover.png","rect-accent-hover.png","rect-accent.png",
+                        "rect-basic.png","rect-hover.png","right.png","scale-hor.png","scale-vert.png","separator.png","size.png",
+                        "tab-basic.png","tab-disabled.png","tab-hover.png","tick-hor-accent.png","tick-hor-basic.png","tick-hor-hover.png",
+                        "tick-vert-accent.png","tick-vert-basic.png","tick-vert-hover.png","tree-basic.png","tree-pressed.png",
+                        "up-accent.png","up.png","vert-accent.png","vert-basic.png","vert-hover.png"
+                   ]
+
+        for png in png_list:
+                wget.download('https://github.com/LorenzoMonti/calibrate-multifeed-receiver/blob/main/theme/light/' + png, HOME_DIRECTORY + 'light')
+        """
 #########################
 #       FORMULAS        #
 #########################
@@ -150,7 +189,7 @@ def calcFrequency():
     Function used to calculate the x-axis of the trace (frequencies)
     
     """
-    config_file = read_config_file("./config/config_MS2830A.json")
+    config_file = read_config_file(HOME_DIRECTORY + "config_MS2830A.json")
     
     tmp_freq = ((config_file["stop_freq"] - config_file["start_freq"]) / (config_file["sweep_trace_points"] - 1))
     frequency = [(config_file["start_freq"] + (tmp_freq * i)) for i in range(0, config_file["sweep_trace_points"]) ]

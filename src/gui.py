@@ -5,7 +5,8 @@
 #  in conjunction with Tcl version 8.6
 #    Dec 17, 2021 11:46:39 AM CET  platform: Linux
 
-import sys
+import sys, os
+import pkg_resources
 from tkinter import Radiobutton
 from tkinter.constants import DISABLED
 from typing import Text
@@ -33,12 +34,14 @@ from src import gui_support
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
+    
+    Utils.create_home_directory()
+
     global val, w, root
     root = tk.Tk()
     # Simply set the theme
-    root.tk.call("source", "src/azure.tcl")
-    root.tk.call("set_theme", "light")
-
+    #root.tk.call("source", Utils.HOME_DIRECTORY + "azure.tcl")
+    #root.tk.call("set_theme", Utils.HOME_DIRECTORY + "light")
     top = UserInterface (root)
     gui_support.init(root, top)
     root.mainloop()
@@ -76,8 +79,8 @@ class UserInterface:
         #############################
         # ANRITSU CONFIGURATION
         #############################
-        config_interface = Utils.read_config_file("./config/config_interface.json")
-        config_file = Utils.read_config_file("./config/config_MS2830A.json")
+        config_interface = Utils.read_config_file(Utils.HOME_DIRECTORY + 'config_interface.json')
+        config_file = Utils.read_config_file(Utils.HOME_DIRECTORY + 'config_MS2830A.json')
         ##############################
         
         #############################
@@ -97,11 +100,4 @@ class UserInterface:
         measure_tab.measure(self,self.TNotebook1)
         
         self.TNotebook1.tab(2, state=DISABLED)
-
-if __name__ == '__main__':
-    vp_start_gui()
-
-
-
-
 
