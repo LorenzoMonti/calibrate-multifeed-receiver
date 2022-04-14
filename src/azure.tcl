@@ -1,7 +1,7 @@
 # Copyright © 2021 rdbende <rdbende@gmail.com>
 
 source ~/.calibrate_receiver/light.tcl
-source ~/.calibrate_receiver/dark.tcl
+#source ~/.calibrate_receiver/dark.tcl
 
 option add *tearOff 0
 
