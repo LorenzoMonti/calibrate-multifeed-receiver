@@ -40,8 +40,8 @@ def vp_start_gui():
     global val, w, root
     root = tk.Tk()
     # Simply set the theme
-    #root.tk.call("source", Utils.HOME_DIRECTORY + "azure.tcl")
-    #root.tk.call("set_theme", Utils.HOME_DIRECTORY + "light")
+    root.tk.call("source", Utils.HOME_DIRECTORY + "azure.tcl")
+    root.tk.call("set_theme", "light")
     top = UserInterface (root)
     gui_support.init(root, top)
     root.mainloop()

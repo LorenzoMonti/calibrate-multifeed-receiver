@@ -9,7 +9,7 @@ import json
 from math import log10
 import sys, os
 from pathlib import Path
-import wget, requests
+import wget
 import shutil
 
 """
@@ -134,31 +134,9 @@ def create_home_directory():
                 download_config_files()        
 
 def download_config_files():
-        wget.download('https://raw.githubusercontent.com/LorenzoMonti/calibrate-multifeed-receiver/main/config/config_interface.json', HOME_DIRECTORY)
-        wget.download('https://raw.githubusercontent.com/LorenzoMonti/calibrate-multifeed-receiver/main/config/config_MS2830A.json', HOME_DIRECTORY)
-        """
-        wget.download('https://raw.githubusercontent.com/LorenzoMonti/calibrate-multifeed-receiver/main/src/azure.tcl', HOME_DIRECTORY)
-        wget.download('https://raw.githubusercontent.com/LorenzoMonti/calibrate-multifeed-receiver/main/theme/light.tcl', HOME_DIRECTORY)
-        wget.download('https://raw.githubusercontent.com/LorenzoMonti/calibrate-multifeed-receiver/main/theme/dark.tcl', HOME_DIRECTORY)
+        wget.download('https://docs.google.com/uc?export=download&id=13OqmkVfld7d2N-y6kaMWhnme1aJLIzSO', HOME_DIRECTORY)
+        shutil.unpack_archive(HOME_DIRECTORY + 'calibrate_receiver.zip', HOME_DIRECTORY)
 
-        os.makedirs(HOME_DIRECTORY + 'light')
-        png_list = [ 
-                        "box-accent.png", "box-basic.png", "box-hover.png", "box-invalid.png","button-hover.png","card.png",
-                        "check-accent.png","check-basic.png","check-hover.png","check-tri-accent.png","check-tri-basic.png",
-                        "check-tri-hover.png","circle-accent.png","circle-basic.png","circle-hover.png","combo-button-basic.png",
-                        "combo-button-focus.png","combo-button-hover.png","down-accent.png","down.png","empty.png","hor-accent.png",
-                        "hor-basic.png","hor-hover.png","notebook.png","off-basic.png","off-hover.png","on-accent.png","on-basic.png",
-                        "on-hover.png","outline-basic.png","outline-hover.png","radio-accent.png","radio-basic.png","radio-hover.png",
-                        "radio-tri-accent.png","radio-tri-basic.png","radio-tri-hover.png","rect-accent-hover.png","rect-accent.png",
-                        "rect-basic.png","rect-hover.png","right.png","scale-hor.png","scale-vert.png","separator.png","size.png",
-                        "tab-basic.png","tab-disabled.png","tab-hover.png","tick-hor-accent.png","tick-hor-basic.png","tick-hor-hover.png",
-                        "tick-vert-accent.png","tick-vert-basic.png","tick-vert-hover.png","tree-basic.png","tree-pressed.png",
-                        "up-accent.png","up.png","vert-accent.png","vert-basic.png","vert-hover.png"
-                   ]
-
-        for png in png_list:
-                wget.download('https://github.com/LorenzoMonti/calibrate-multifeed-receiver/blob/main/theme/light/' + png, HOME_DIRECTORY + 'light')
-        """
 #########################
 #       FORMULAS        #
 #########################
