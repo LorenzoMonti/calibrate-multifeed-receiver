@@ -15,7 +15,7 @@ setup(
 	url="https://github.com/LorenzoMonti/calibrate-multifeed-receiver",
 	author='Lorenzo Monti',
 	author_email='lorenzo.monti@inaf.it',
-	packages=['config', 'scripts', 'src', 'src/tabs', 'theme'],
+	packages=['config', 'src', 'src/tabs', 'theme'],
 	include_package_data=True,
 	entry_points={
         'console_scripts': [
