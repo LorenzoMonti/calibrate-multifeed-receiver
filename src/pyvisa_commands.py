@@ -3,10 +3,11 @@
 
 # Ubuntu drivers: https://www.ni.com/it-it/support/downloads/drivers/download.ni-linux-device-drivers.html#427909
 # GPIB-USB-HS+ drivers: https://github.com/fmhess/hsplus_load
-# Documentation about drivers: https://www.ni.com/it-it/support/documentation/supplemental/18/downloading-and-installing-ni-driver-software-on-linux-desktop.html
+# Documentation about drivers: 
+# https://www.ni.com/it-it/support/documentation/supplemental/18/downloading-and-installing-ni-driver-software-on-linux-desktop.html
 import pyvisa
-import time
-import numpy as np
+#import time
+#import numpy as np
 
 resource_man = pyvisa.ResourceManager("@py")
 print(resource_man.list_resources("?*")) # all resources
