@@ -17,7 +17,11 @@ setup(
 	author_email='lorenzo.monti@inaf.it',
 	packages=['config', 'scripts', 'src', 'src/tabs', 'theme'],
 	include_package_data=True,
-	scripts=['scripts/calibrate_receiver'],
+	entry_points={
+        'console_scripts': [
+            'calibrate_receiver=src.gui:vp_start_gui',
+        ]
+    },
 	license='MIT',
 	platforms='all',
 	install_requires=[
@@ -36,6 +40,8 @@ setup(
 	],
 	classifiers=[
         'Programming Language :: Python :: 3.8',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX :: Linux',
         'License :: OSI Approved :: MIT License',
     ]
 )

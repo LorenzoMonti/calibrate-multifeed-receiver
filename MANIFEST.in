@@ -1,8 +1,7 @@
 include README.md
 include LICENSE
 include requirements.txt
-recursive-include config/ *
-recursive-include theme/ *
+recursive-include config *
+recursive-include theme *
 include src/azure.tcl
-recursive-include src/ *.py
-
+recursive-include src *.py
