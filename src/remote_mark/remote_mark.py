@@ -129,13 +129,13 @@ if __name__ == '__main__':
     print("PC+m done")
     #PH+m
     input("Press Enter to continue with PH+m")
-    set_dat64f(dat_host, dat_port, timeout, 3.5)
+    set_dat64f(dat_host, dat_port, timeout, 3)
     time.sleep(1)
     set_siglent('ON')
     print("PH+m done")
     #PH
     input("Press Enter to continue with PH")
-    set_dat64f(dat_host, dat_port, timeout, 3.5)
+    set_dat64f(dat_host, dat_port, timeout, 3)
     time.sleep(1)
     set_siglent('OFF')
     print("PH done")

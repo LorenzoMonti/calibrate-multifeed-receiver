@@ -29,7 +29,7 @@ python3 setup.py install
 Now you can run the project:
 
 ```bash
-calibrate_multifeed_receiver
+calibrate_receiver
 ```
 
 ## License
