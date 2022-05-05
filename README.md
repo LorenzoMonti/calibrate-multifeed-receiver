@@ -10,6 +10,8 @@ After that you can download the repository, open terminal and type:
 git clone https://github.com/LorenzoMonti/calibrate-multifeed-receiver.git
 ```
 
+Or if you are a windows user, you can download the executable from [Releases section](https://github.com/LorenzoMonti/calibrate-multifeed-receiver/releases/download/v0.8.0/calibrate_receiver.exe). Remember that you must have the NI-VISA drivers installed in order to proceed. All testing was done with NI-488.2 (<=17.6 version) for backward compatibility with GPIB-B interfaces.
+
 ## Project's dependecies
 
 ```bash
