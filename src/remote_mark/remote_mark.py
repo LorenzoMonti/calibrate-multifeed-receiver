@@ -97,6 +97,7 @@ def set_siglent(switch):
 
 
 if __name__ == '__main__':
+    # network settings
     dat_local = "192.168.60.73"
     dat_remote = "localhost" 
     dat_port = 10001
@@ -109,6 +110,12 @@ if __name__ == '__main__':
     dat_host = ""
     siglent_ip = ""
     
+    # arguments for attenuator and power supply
+    experimentlist = ["PC", "PC+m", "PH+m", "PH", "PC"]
+    dat64list = [63, 63, 21.5, 21.5, 63]
+    siglentlist = ["OFF", "ON", "ON", "OFF", "OFF"]
+
+
     interface = input("select interface: (1) for local inteface, (2) for remote interface: ")
     if interface == '1':
         dat_host = dat_local
@@ -120,33 +127,9 @@ if __name__ == '__main__':
         print("No available interfaces, try again...")
         sys.exit()
 
-    #PC
-    input("Press Enter to continue with PC")
-    set_dat64f(dat_host, dat_port, timeout, 63)
-    time.sleep(1)
-    set_siglent('OFF')
-    print("\tPC done\n")
-    #PC+m
-    input("Press Enter to continue with PC+m")
-    set_dat64f(dat_host, dat_port, timeout, 63)
-    time.sleep(1)
-    set_siglent('ON')
-    print("\tPC+m done\n")
-    #PH+m
-    input("Press Enter to continue with PH+m")
-    set_dat64f(dat_host, dat_port, timeout, 21.5)
-    time.sleep(1)
-    set_siglent('ON')
-    print("\tPH+m done\n")
-    #PH
-    input("Press Enter to continue with PH")
-    set_dat64f(dat_host, dat_port, timeout, 21.5)
-    time.sleep(1)
-    set_siglent('OFF')
-    print("\tPH done\n")
-    #PC
-    input("Press Enter to continue with PC")
-    set_dat64f(dat_host, dat_port, timeout, 63)
-    time.sleep(1)
-    set_siglent('OFF')
-    print("\tPC done\n")
+    for i in range(5):
+        input("Press Enter to continue with " + experimentlist[i])
+        set_dat64f(dat_host, dat_port, timeout, dat64list[i])
+        time.sleep(1)
+        set_siglent(siglentlist[i])
+        print("\t" + experimentlist[i] + " done\n")
