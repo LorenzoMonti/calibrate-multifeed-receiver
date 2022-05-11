@@ -19,7 +19,7 @@ def set_dat64f(dat_host, dat_port, timeout, db):
 
     with telnetlib.Telnet(dat_host, dat_port, timeout) as session:
         session.write(b"att?\n")
-        print(session.read_until(b'\r\n').decode('ascii'))
+        print("\n\tDAT64F attenuator: " + session.read_until(b'\r\n').decode('ascii'))
 
 ##################################################
 #             Siglent SDP 3003X                  #
@@ -38,14 +38,14 @@ def SocketConnect():
         #create an AF_INET, STREAM socket (TCP)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     except socket.error:
-        print ('Failed to create socket.')
+        print ('\tFailed to create socket.')
         sys.exit()
     
     try:
         #Connect to remote server
         sock.connect((siglent_ip , siglent_port))
     except socket.error:
-        print ('failed to connect to ip ' + siglent_ip)
+        print ('\tfailed to connect to ip ' + siglent_ip)
     return sock
 
 def SocketSend(Sock, cmd):
@@ -56,7 +56,7 @@ def SocketSend(Sock, cmd):
         time.sleep(1)
     except socket.error:
         #Send failed
-        print ('Send failed')
+        print ('\tSend failed')
         sys.exit()
         
 def SocketQuery(Sock, cmd):
@@ -93,58 +93,43 @@ def set_siglent(switch):
     """
     
     SocketClose(sock)
-    print('Query complete. Exiting program')
-    sys.exit
+    print('\tSiglent SDP 3003X: ' + switch_string + "\n")
+
 
 if __name__ == '__main__':
-    
-    dat_host = "localhost" #"192.168.60.73"
+    # network settings
+    dat_local = "192.168.60.73"
+    dat_remote = "localhost" 
     dat_port = 10001
     timeout = 1000
     
-    siglent_ip = "localhost" #"192.168.60.72" 
+    siglent_local = "192.168.60.72"
+    siglent_remote = "localhost" 
     siglent_port = 5025 
-    count = 0
-
-
-    """
-    "Track      Siglent        ATT
-    "PC           OFF           8     
-    "PC+m         ON            8
-    "PH           ON           3.5
-    "PH+m         OFF          3.5
-    "PC           OFF           8
-    """
-    #PC
-    input("Press Enter to continue with PC")
-    set_dat64f(dat_host, dat_port, timeout, 8)
-    time.sleep(1)
-    set_siglent('OFF')
-    print("PC done")
-    #PC+m
-    input("Press Enter to continue with PC+m")
-    set_dat64f(dat_host, dat_port, timeout, 8)
-    time.sleep(1)
-    set_siglent('ON')
-    print("PC+m done")
-    #PH+m
-    input("Press Enter to continue with PH+m")
-    set_dat64f(dat_host, dat_port, timeout, 3)
-    time.sleep(1)
-    set_siglent('ON')
-    print("PH+m done")
-    #PH
-    input("Press Enter to continue with PH")
-    set_dat64f(dat_host, dat_port, timeout, 3)
-    time.sleep(1)
-    set_siglent('OFF')
-    print("PH done")
-    #PC
-    input("Press Enter to continue with PC")
-    set_dat64f(dat_host, dat_port, timeout, 8)
-    time.sleep(1)
-    set_siglent('OFF')
-    print("PC done")
-
-
     
+    dat_host = ""
+    siglent_ip = ""
+    
+    # arguments for attenuator and power supply
+    experimentlist = ["PC", "PC+m", "PH+m", "PH", "PC"]
+    dat64list = [63, 63, 21.5, 21.5, 63]
+    siglentlist = ["OFF", "ON", "ON", "OFF", "OFF"]
+
+
+    interface = input("select interface: (1) for local inteface, (2) for remote interface: ")
+    if interface == '1':
+        dat_host = dat_local
+        siglent_ip = siglent_local
+    elif interface == '2':
+        dat_host = dat_remote
+        siglent_ip = siglent_remote
+    else:
+        print("No available interfaces, try again...")
+        sys.exit()
+
+    for i in range(5):
+        input("Press Enter to continue with " + experimentlist[i])
+        set_dat64f(dat_host, dat_port, timeout, dat64list[i])
+        time.sleep(1)
+        set_siglent(siglentlist[i])
+        print("\t" + experimentlist[i] + " done\n")
