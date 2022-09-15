@@ -3,7 +3,7 @@
 
 ## Download
 
-This project is written in Python3 (3.8), so make sure you have it installed in your machine.
+This project is written in Python3 (3.8 but also compatible with the newest versions), so make sure you have it installed in your machine.
 After that you can download the repository, open terminal and type:
 
 ```bash
